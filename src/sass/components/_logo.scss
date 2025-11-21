@@ -1,0 +1,21 @@
+.logo {
+    padding: 1rem;
+}
+
+.logo--text {
+    display: inline-block;
+    font-size: 2rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline;
+    span { 
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+.logo--icon i{
+    display: inline-block;
+    font-size: 4rem;
+    rotate: -45deg;
+}
