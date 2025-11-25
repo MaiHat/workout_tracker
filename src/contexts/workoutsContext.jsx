@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useAuth } from "../contexts/authContext";
 import { db } from "../firebase/firebase";
-import { collection, getDocs, addDoc, doc, setDoc, Timestamp, query, where, updateDoc, orderBy, limit, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, getDoc, addDoc, doc, setDoc, Timestamp, query, where, updateDoc, orderBy, limit, deleteDoc } from "firebase/firestore";
 const WorkoutsContext = React.createContext();
 
 function useWorkouts() {
@@ -74,7 +74,7 @@ function WorkoutsContextProvider({ children }) {
         setDisplayedWorkouts(fetched);
   }
   
-   async function fetchPrevWorkout(selectedWorkout) {
+  async function fetchPrevWorkout(selectedWorkout) {
       const q = query(collection(db, "users", currentUser.uid, "workouts"), 
         where("bodyPart", "==", selectedWorkout.id),
         where("workoutName", "==", selectedWorkout.workoutName),
@@ -104,9 +104,10 @@ function WorkoutsContextProvider({ children }) {
           console.log(error);
           return null;
         }
-    }
+  }
 
- async function getMonthlyWorkoutStats() {
+  //workoutStatsから選択月全部のデータを取得
+  async function getMonthlyWorkoutStats() {
     if (!currentUser) return;
 
    const start = Timestamp.fromDate(new Date(
@@ -187,14 +188,17 @@ function WorkoutsContextProvider({ children }) {
     });
     console.log(monthlyStats);
   }
-
+  
+  //workoutsからデータを取り出しmax値を計算、workoutStatsに保存
   async function getMaxDataOfTheDay(selectedDate) {
     if (!selectedDate || !(selectedDate instanceof Date)) {
     console.error("selectedDate must be a Date object:", selectedDate);
     return ;
     } //これはundefined や "2025-11-12"（文字列）が渡されたときdebugが楽になるためのコード。selectedDateがDateオブジェクトになっているか確認している
+    
     const startOfDay = new Date(selectedDate);
     startOfDay.setHours(0, 0, 0, 0);
+
     const endOfDay = new Date(selectedDate);
     endOfDay.setHours(23, 59, 59, 999);
     
@@ -210,12 +214,21 @@ function WorkoutsContextProvider({ children }) {
 
     const snapshot = await getDocs(q);
 
+    const dateKey = startOfDay.toISOString().split("T")[0]; //日付キー(statsドキュメント名)を作る
+
+    //その日のworkoutが0 => statsを削除
     if (snapshot.empty) {
       setMaxRmOfTheDay(0);
       setMaxWeightOfTheDay(0);
-      console.log("No workouts found for the day");
+      try {
+        await deleteDoc(doc(db, "users", currentUser.uid, "workoutStats", dateKey));
+        console.log("Deleted empty workoutStats:", dateKey);
+      } catch (err) {
+      console.log("err deleting stats:", err);
+      }
       return;
     }
+
     let overallMaxRM = 0;
     let overallMaxWeight = 0;
     const bodyPartStats = {};   // 例{ arms: {maxRM:60, maxWeight:40}, legs: {...} }
@@ -246,12 +259,11 @@ function WorkoutsContextProvider({ children }) {
           workoutNameStats[workoutName].maxWeight = Math.max(workoutNameStats[workoutName].maxWeight, weight);
         }
       });
-    })
+    });
     //stateの更新
     setMaxRmOfTheDay(overallMaxRM);
     setMaxWeightOfTheDay(overallMaxWeight);
 
-    const dateKey = startOfDay.toISOString().split("T")[0];
     const newWorkoutStat = {
       date: Timestamp.fromDate(selectedDate),
       all: { maxRM: overallMaxRM, maxWeight: overallMaxWeight },
@@ -283,6 +295,7 @@ function WorkoutsContextProvider({ children }) {
         }
       } */}
   }
+
   {/*useEffect( () => {
      fetchBodyParts(),
      getMonthlyWorkoutDatesAndDays();
@@ -310,8 +323,6 @@ function WorkoutsContextProvider({ children }) {
         }
         await addDoc(collection(db, "users", currentUser.uid, "workouts"), newWorkout);
           console.log("Workout saved:", newWorkout);
-          fetchWorkoutData();
-          getMaxDataOfTheDay(selectedDate);
       } else {
         await updateDoc(
           doc(db, "users", currentUser.uid, "workouts", editingWorkoutId),
@@ -324,11 +335,12 @@ function WorkoutsContextProvider({ children }) {
             maxRm: mr,
             }
         );
-      }   
+      }   console.log("succes");
         return { success: true };
+        
       } catch (e) {
         console.error(e);
-        return { succes: false, error: e };
+        return { success: false, error: e };
       }
     }
    
@@ -368,16 +380,37 @@ function WorkoutsContextProvider({ children }) {
       }
     }
   async function deleteWorkout(workoutId) {
-    try {
-    await deleteDoc(doc(db, "users", currentUser.uid, "workouts", workoutId));
-      setDisplayedWorkouts(displayedWorkouts.filter(w => w.id !== workoutId));
-      console.log("deleted workout", workoutId);
-      fetchWorkoutData();
-    } catch (error) {
-       console.log(error);
-    }
-  }
+  try {
+    // --- ① 削除する前にデータを読み取る ---
+    const workoutRef = doc(db, "users", currentUser.uid, "workouts", workoutId);
+    const snap = await getDoc(workoutRef);
 
+    if (!snap.exists()) {
+      console.log("Error: workout not found");
+      return;
+    }
+
+    // 削除前の date を取得
+    const workoutDate = snap.data().date.toDate(); 
+    console.log("Deleting workout, date:", workoutDate);
+
+    // --- ② 削除 ---
+    await deleteDoc(workoutRef);
+    console.log("Deleted:", workoutId);
+
+    // --- ③ state 更新 ---
+    setDisplayedWorkouts(displayedWorkouts.filter(w => w.id !== workoutId));
+
+    // --- ④ グラフ・一覧更新 ---
+    fetchWorkoutData();
+
+    // --- ⑤ その日の max を再計算 → stats 更新 or 削除 ---
+    await getMaxDataOfTheDay(workoutDate);
+
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 
   const workoutsValue = {

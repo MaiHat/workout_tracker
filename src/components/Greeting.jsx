@@ -70,13 +70,15 @@ export default function Greeting() {
   const [weeklyArchivedDyas, setWeeklyArchivedDays] = useState([]);
   
   
-  function handleClickDate() {
+  function handleClickDate(clickedDate) {
+    setSelectedDate(clickedDate);
     setIsEditing(false);
     setAddPopup(true);
-    getMaxDataOfTheDay(selectedDate) ;
+    getMaxDataOfTheDay(clickedDate);
   }
 
   function handleClickTodays() {
+    setSelectedDate(today);
     setIsEditing(false);
     setAddPopup(true);
   }
@@ -107,11 +109,11 @@ export default function Greeting() {
     editingWorkoutId,
     currentUser,
   });
-  if (result.succes) {
-    setDetailsPopup(false);
-    setAddPopup(false);
-    setIsEditing(false);
-    fetchWorkoutData();
+  if (result.success) {
+    fetchWorkoutData(selectedDate);
+    getMonthlyWorkoutStats();
+    getMaxDataOfTheDay(selectedDate);
+    console.log("done!");
   }
  }
  

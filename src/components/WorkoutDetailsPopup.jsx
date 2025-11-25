@@ -98,8 +98,8 @@ export default function WorkoutDetailsPopup({
     const { maxWeight: mw, maxRm: mr } = calcMaxFromSets(setsWithRM);
     setMaxWeight(mw);
     setMaxRm(mr);
-
     onSubmit(setsWithRM, isEditing, mw, mr);
+    setDetailsPopup(false);
   }
 
   useEffect(() => {
