@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
-
-import { collection, query, where, orderBy, limit, getDocs } from "firebase/firestore";
-import { db } from "../firebase/firebase";
 import { useAuth } from "../contexts/authContext";
+import { useWorkouts } from "../contexts/workoutsContext";
+
 
 export default function WorkoutDetailsPopup({
   detailsPopup,
@@ -13,12 +12,12 @@ export default function WorkoutDetailsPopup({
   isEditing,
   }) {  
   const [formData, setFormData] = useState([ { weight: "", reps:"", note: ""}]);
-  const [latestData, setLatestData] = useState(null);
   const { currentUser, username } = useAuth();
   const [maxWeight, setMaxWeight] = useState(0);
   const [maxRm, setMaxRm] = useState(0);
+  const { fetchPrevWorkout, latestData } = useWorkouts();
 
-  async function fetchPrevWorkout(selectedWorkout) {
+  {/* async function fetchPrevWorkout(selectedWorkout) {
     const q = query(collection(db, "users", currentUser.uid, "workouts"), 
       where("bodyPart", "==", selectedWorkout.id),
       where("workoutName", "==", selectedWorkout.workoutName),
@@ -48,7 +47,7 @@ export default function WorkoutDetailsPopup({
         console.log(error);
         return null;
       }
-  }
+  } */}
 
   function handleChangeWorkouts(index, e) {
     const { name, value } = e.target;

@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import { useAuth } from "../contexts/authContext";
 import { db } from "../firebase/firebase";
-import { collection, getDocs, addDoc, doc, setDoc, Timestamp, query, where, updateDoc, getDoc, orderBy } from "firebase/firestore";
+import { collection, getDocs, addDoc, doc, setDoc, Timestamp, query, where, updateDoc, orderBy, limit, deleteDoc } from "firebase/firestore";
 const WorkoutsContext = React.createContext();
 
 function useWorkouts() {
@@ -18,10 +18,6 @@ function WorkoutsContextProvider({ children }) {
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear()); //今の年　ex, 2025
   const [monthlyWorkoutDates, setMonthlyWorkoutDates] = useState([]);  
   const [monthlyWorkoutDays, setMonthlyWorkoutDays] = useState([]);
-  const [monthlyWorkouts, setMonthlyWorkouts] = useState({});
-  const [workoutsByWorkoutName, setWorkoutsByWorkoutName] = useState({});
-  const [rmByWorkoutName, setRmByOWrkoutName] = useState([]);
-  const [rmByBodyPart, setRmByBodyPart] = useState([]);
   const [maxRmOfTheDay, setMaxRmOfTheDay] = useState();
   const [maxWeightOfTheDay, setMaxWeightOfTheDay] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -30,6 +26,7 @@ function WorkoutsContextProvider({ children }) {
   const [bodyParts, setBodyParts] = useState([]);
   const [displayedWorkouts, setDisplayedWorkouts] = useState([]);
   const [selectedDate, setSelectedDate] = useState(today);
+  const [latestData, setLatestData] = useState(null);
   
  
   async function fetchBodyParts() {
@@ -60,7 +57,9 @@ function WorkoutsContextProvider({ children }) {
   
       const q = query(collection(db, "users", currentUser.uid, "workouts"), 
         where("date", ">=", start), 
-        where("date", "<=", end));
+        where("date", "<=", end),
+        orderBy("date")
+      );
         const snapshot = await getDocs(q);
         //Firesotoreから欲しいデータを取得しsnapshotに入れる
         const fetched = snapshot.docs.map(doc => ({
@@ -73,10 +72,41 @@ function WorkoutsContextProvider({ children }) {
         // firestoreのdocument idをidとしてローカルでも使いたいため、id: doc.idを最後に持ってきて
         // document idがidとして上書きされるようにしている
         setDisplayedWorkouts(fetched);
+  }
+  
+   async function fetchPrevWorkout(selectedWorkout) {
+      const q = query(collection(db, "users", currentUser.uid, "workouts"), 
+        where("bodyPart", "==", selectedWorkout.id),
+        where("workoutName", "==", selectedWorkout.workoutName),
+        orderBy("date", "desc"),
+        limit(1)
+      );
+      try {
+        const snapshot = await getDocs(q);
+        if(!snapshot.empty) {
+          const doc = snapshot.docs[0];
+          const data = doc.data();
+  
+          console.log("latest workout:", {
+            date: data.date.toDate(),
+            sets: data.sets
+          });
+          setLatestData({
+            id: doc.id,
+            date: data.date.toDate(),
+            sets: data.sets
+            });
+        } else {
+          console.log("no histry");
+          return null;
+        }
+      } catch (error) {
+          console.log(error);
+          return null;
+        }
     }
 
- 
-  async function getMonthlyWorkoutStats() {
+ async function getMonthlyWorkoutStats() {
     if (!currentUser) return;
 
    const start = Timestamp.fromDate(new Date(
@@ -257,6 +287,98 @@ function WorkoutsContextProvider({ children }) {
      fetchBodyParts(),
      getMonthlyWorkoutDatesAndDays();
   }, [currentMonth, currentYear, currentUser]); */}
+  
+  //saveボタン押したときにworkoutの内容をDBに保存または上書きする＆グラフ用のデータを保存または上書きする
+  async function saveWorkout({ 
+    isEditing, 
+    setsWithRM,
+    mw, 
+    mr, 
+    selectedWorkout, 
+    selectedDate, 
+    editingWorkoutId
+  }) {
+    try {
+      if (!isEditing) {
+        const newWorkout = {
+          sets: setsWithRM,
+          date: Timestamp.fromDate(selectedDate || new Date()),
+          bodyPart: selectedWorkout.id,
+          workoutName: selectedWorkout.workoutName,
+          maxWeight: mw,
+          maxRm: mr
+        }
+        await addDoc(collection(db, "users", currentUser.uid, "workouts"), newWorkout);
+          console.log("Workout saved:", newWorkout);
+          fetchWorkoutData();
+          getMaxDataOfTheDay(selectedDate);
+      } else {
+        await updateDoc(
+          doc(db, "users", currentUser.uid, "workouts", editingWorkoutId),
+            { 
+            sets: setsWithRM,
+            date: Timestamp.fromDate(selectedDate || new Date()),
+            bodyPart: selectedWorkout.id,
+            workoutName: selectedWorkout.workoutName,
+            maxWeight: mw,
+            maxRm: mr,
+            }
+        );
+      }   
+        return { success: true };
+      } catch (e) {
+        console.error(e);
+        return { succes: false, error: e };
+      }
+    }
+   
+    async function handleCreateWorkout(e) {
+      e.preventDefault();
+      const bodyPart = e.target.bodyPart.value.trim();
+      const workoutName = e.target.workoutName.value.trim();
+      
+      if(!bodyPart || !workoutName) {
+        alert("Please fill in both fields.");
+        return;
+      }
+      try {
+        const existingPart = bodyParts.find(part => part.id === bodyPart); //bodyPartが既に存在していればexistingPartとする
+        if (existingPart) { //exisitingPartが存在すれば
+          if (existingPart.workoutNames.includes(workoutName)) { //workoutNameも存在するとき
+            alert("This workout already exists.");  //error msg
+            return;
+          }
+          const updatedWorkoutNames = [...existingPart.workoutNames, workoutName]; 
+          await setDoc(doc(db, "users", currentUser.uid, "bodyParts", bodyPart), {
+            workoutNames: updatedWorkoutNames,
+          });
+          console.log(updatedWorkoutNames);
+          fetchBodyParts();
+          } else {
+          //} if(!existingPart) {//bodypart存在しないとき //新規作成は　setDoc(doc(db, collection, docID))を使用
+          await setDoc(doc(db, "users", currentUser.uid, "bodyParts", bodyPart), {  
+            //databaseのbodyPartsにid: 新しいbodyPart, workoutNamesの配列にworkoutNameを追加したい
+            workoutNames: [workoutName]
+          });
+          await fetchBodyParts();
+        }
+        setCreatePopup(false);
+      } catch (error) {
+        console.log(error)
+      }
+    }
+  async function deleteWorkout(workoutId) {
+    try {
+    await deleteDoc(doc(db, "users", currentUser.uid, "workouts", workoutId));
+      setDisplayedWorkouts(displayedWorkouts.filter(w => w.id !== workoutId));
+      console.log("deleted workout", workoutId);
+      fetchWorkoutData();
+    } catch (error) {
+       console.log(error);
+    }
+  }
+
+
 
   const workoutsValue = {
     fetchBodyParts,
@@ -277,7 +399,10 @@ function WorkoutsContextProvider({ children }) {
     fetchWorkoutData,
     displayedWorkouts, 
     setSelectedDate,
-    selectedDate
+    selectedDate,
+    fetchPrevWorkout,
+    saveWorkout,
+    deleteWorkout,
   };
   return (
     <WorkoutsContext.Provider value={workoutsValue}>

@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from "../contexts/authContext";
-//
 import { useWorkouts } from "../contexts/workoutsContext";
 import { Link, useNavigate } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
@@ -12,7 +11,7 @@ import AddWorkoutPopup from './AddWorkoutPopup'
 import WorkoutDetailsPopup from './WorkoutDetailsPopup'
 import CreateWorkoutNamePopup from './CreateWorkoutNamePopup'
 import WorkoutList from './WorkoutList';
-import { LineGraph } from './Line2';
+import { LineGraph } from './Line';
 {/*
   trying to use workoutlist UI to edit workoutdata and to input new workout
   その日毎のmaxRMを配列にしてconstしようとしている
@@ -54,9 +53,10 @@ export default function Greeting() {
     displayedWorkouts,
     setDisplayedWorkouts,
     today,
+    saveWorkout,
+    deleteWorkout,
   } = useWorkouts();
-  
-  const [selectedMonth, setSelectedMonth] = useState(currentMonth);
+
   const [addPopup, setAddPopup] = useState(false);
   const [createPopup, setCreatePopup] = useState(false);
   const [detailsPopup, setDetailsPopup] = useState(false);
@@ -90,80 +90,30 @@ export default function Greeting() {
     setCreatePopup(true);
   }
 
-
-
-  
- async function handleEditWorkout(workoutId) {
+  async function handleEditWorkout(workoutId) {
     setEditingWorkoutId(workoutId);
     setAddPopup(true);
     setIsEditing(true);
  }
 
-  async function handleDeleteWorkout(workoutId) {
-    try {
-      await deleteDoc(doc(db, "users", currentUser.uid, "workouts", workoutId));
-      setDisplayedWorkouts(displayedWorkouts.filter(w => w.id !== workoutId));
-      console.log("deleted workout", workoutId);
-      fetchWorkoutData();
-    } catch (error) {
-      console.log(error);
-    }
+ async function handleSubmit (setsWithRM, isEditing, mw, mr) {
+  const result = await saveWorkout({
+    setsWithRM, 
+    isEditing,
+    mw,
+    mr,
+    selectedWorkout, 
+    selectedDate,
+    editingWorkoutId,
+    currentUser,
+  });
+  if (result.succes) {
+    setDetailsPopup(false);
+    setAddPopup(false);
+    setIsEditing(false);
+    fetchWorkoutData();
   }
-
-  //saveボタン押したときにworkoutの内容をDBに保存または上書きする＆グラフ用のデータを保存または上書きする
-  async function handleWorkoutSubmit(setsWithRM, isEditing, mw, mr) {
-    setIsLoading(true);
-    console.log(mw, mr)
-    if(!isEditing) {
-      const newWorkout = {
-        sets: setsWithRM,
-        date: Timestamp.fromDate(selectedDate || new Date()),
-        bodyPart: selectedWorkout.id,
-        workoutName: selectedWorkout.workoutName,
-        maxWeight: mw,
-        maxRm: mr
-      }
-      try {
-        await addDoc(collection(db, "users", currentUser.uid, "workouts"), newWorkout);
-        setWorkouts(prev => {
-          const updated = { ...prev };
-          if (!updated[newWorkout.bodyPart]) updated[newWorkout.bodyPart] =[];
-          updated[newWorkout.bodyPart].push(newWorkout);
-          return updated;
-        });
-        console.log("Workout saved:", newWorkout);
-        setDetailsPopup(false);
-        fetchWorkoutData();
-        getMaxDataOfTheDay(selectedDate);
-        
-      } catch(error) {
-        console.log(error);
-      } 
-    } if(isEditing) {
-      console.log(editingWorkoutId);
-      const editingWorkout = {
-        sets: setsWithRM,
-        date: Timestamp.fromDate(selectedDate || new Date()),
-        bodyPart: selectedWorkout.id,
-        workoutName: selectedWorkout.workoutName,
-        maxWeight: mw,
-        maxRm: mr,
-        id: editingWorkoutId
-      } 
-      try {
-        await updateDoc(doc(db, "users", currentUser.uid, "workouts", editingWorkoutId), {
-        ...editingWorkout});
-        setDetailsPopup(false);
-        setIsEditing(false);
-        fetchWorkoutData();
-        getMaxDataOfTheDay(selectedDate);
-        console.log("更新完了");
-      } catch (error) {
-        console.error("更新エラー:", error);
-      } 
-      setIsLoading(false);
-    }
-  }
+ }
  
   async function handleCreateWorkout(e) {
     e.preventDefault();
@@ -235,18 +185,16 @@ export default function Greeting() {
         detailsPopup={detailsPopup}
         selectedWorkout={selectedWorkout}
         setDetailsPopup={setDetailsPopup}
-        onSubmit={handleWorkoutSubmit}
+        onSubmit={handleSubmit}
         isEditing={isEditing}
         setIsLoading={setIsLoading}
         />
-
-        {/*to display workout*/}
         <WorkoutList  
           selectedDate={selectedDate}
           setDetailsPopup={setDetailsPopup}
           isLoaing={isLoading}
           onEdit={handleEditWorkout} 
-          onDelete={handleDeleteWorkout}
+          onDelete={deleteWorkout}
           displayedWorkouts={displayedWorkouts}
           fetchWorkoutData={fetchWorkoutData} />
 
@@ -255,8 +203,6 @@ export default function Greeting() {
           handleCreateWorkout={handleCreateWorkout} />
                   
         <LineGraph />
-
-              
       </div>
     </div>
   )

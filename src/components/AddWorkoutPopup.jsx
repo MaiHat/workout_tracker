@@ -7,10 +7,11 @@ export default function AddWorkoutPopup({
   handleClickCreate,
   setAddPopup,
   setSelectedWorkout,
+  selectedWorkout,
   isEditing,
 }) {
   const { fetchBodyParts, currentMonth,
-  currentYear, selectedDate, bodyParts,} = useWorkouts();
+  currentYear, selectedDate, bodyParts, fetchPreWorkout} = useWorkouts();
 
   useEffect( () => {
      if (addPopup) fetchBodyParts();
