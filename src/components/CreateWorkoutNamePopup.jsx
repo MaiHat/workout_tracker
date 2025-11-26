@@ -3,8 +3,11 @@ import React from 'react'
 export default function CreateWorkoutNamePopup({
   createPopup,
   handleCreateWorkout,
-  setCreatePopup
+  setCreatePopup,
 }) {
+ 
+
+
   return (
     <div>
       <div className='events'>
@@ -23,9 +26,13 @@ export default function CreateWorkoutNamePopup({
                 placeholder="Workout Name" 
                 />
                 <button>Save</button>
-                <button className="close-event-popup" onClick={() => setCreatePopup(false)}>
+                <button 
+                  className="close-event-popup"
+                  type="button"
+                  onClick={() => setCreatePopup(false)}
+                >
                     <i className='bx bx-x'></i>
-                  </button>
+                </button>
                 </form>
               </div>
             )}

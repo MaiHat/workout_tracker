@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { auth } from "../firebase/firebase";
+import { initUserData } from "../firebase/initUserData";
 import { onAuthStateChanged, 
         createUserWithEmailAndPassword, 
         signInWithEmailAndPassword, 
@@ -32,9 +33,15 @@ function AuthProvider({ children }) {
         setUserName(username);
     }
 
-    function signup(email, password) {
-       return createUserWithEmailAndPassword(auth, email, password);
-    }
+    async function signup(email, password) {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user; //user情報をuserの中に入れている
+
+        // ★ ユーザー作成直後に初期セットアップ
+        await initUserData(user.uid);
+        return user;
+        console.log(user);
+        }
 
     function login(email, password) {
         return signInWithEmailAndPassword(auth, email, password); 

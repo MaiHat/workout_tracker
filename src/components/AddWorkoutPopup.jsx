@@ -9,9 +9,14 @@ export default function AddWorkoutPopup({
   setSelectedWorkout,
   selectedWorkout,
   isEditing,
+  setCreatePopup,
 }) {
   const { fetchBodyParts, currentMonth,
   currentYear, selectedDate, bodyParts, fetchPreWorkout} = useWorkouts();
+
+  function handleCreate(){
+    onCreate();
+  }
 
   useEffect( () => {
      if (addPopup) fetchBodyParts();
@@ -43,7 +48,7 @@ export default function AddWorkoutPopup({
                   ))}
                 </div>
               ))}
-                <button onClick={handleClickCreate}>Create Work out</button>
+                <button onClick={() => setCreatePopup(true)}>Create Work out</button>
                 <button className="close-event-popup" onClick={() => setAddPopup(false)}>
                   <i className='bx bx-x'></i>
                 </button>

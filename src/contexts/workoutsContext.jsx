@@ -387,39 +387,35 @@ function WorkoutsContextProvider({ children }) {
     }
   }
   
-    async function handleCreateWorkout(e) {
-      e.preventDefault();
-      const bodyPart = e.target.bodyPart.value.trim();
-      const workoutName = e.target.workoutName.value.trim();
-      
-      if(!bodyPart || !workoutName) {
-        alert("Please fill in both fields.");
-        return;
-      }
+  async function addWorkoutName(bodyPart, workoutName, currentUser) {
+    if(!bodyPart || !workoutName) return { success: false, messase: "fill in both fields." };
       try {
         const existingPart = bodyParts.find(part => part.id === bodyPart); //bodyPartが既に存在していればexistingPartとする
-        if (existingPart) { //exisitingPartが存在すれば
+
+        if (existingPart) { //bodyPartがすでに存在して
           if (existingPart.workoutNames.includes(workoutName)) { //workoutNameも存在するとき
-            alert("This workout already exists.");  //error msg
-            return;
+            return { success: false, message: "This workout already exists." };
           }
           const updatedWorkoutNames = [...existingPart.workoutNames, workoutName]; 
-          await setDoc(doc(db, "users", currentUser.uid, "bodyParts", bodyPart), {
-            workoutNames: updatedWorkoutNames,
-          });
+          await setDoc(
+            doc(db, "users", currentUser.uid, "bodyParts", bodyPart), 
+            { workoutNames: updatedWorkoutNames },
+            { merge: true }
+          );
           console.log(updatedWorkoutNames);
           fetchBodyParts();
           } else {
           //} if(!existingPart) {//bodypart存在しないとき //新規作成は　setDoc(doc(db, collection, docID))を使用
-          await setDoc(doc(db, "users", currentUser.uid, "bodyParts", bodyPart), {  
-            //databaseのbodyPartsにid: 新しいbodyPart, workoutNamesの配列にworkoutNameを追加したい
-            workoutNames: [workoutName]
-          });
+          await setDoc(doc(db, "users", currentUser.uid, "bodyParts", bodyPart), 
+          //databaseのbodyPartsにid: 新しいbodyPart, workoutNamesの配列にworkoutNameを追加したい
+            { workoutNames: [workoutName] }
+          );
+          }
           await fetchBodyParts();
-        }
-        setCreatePopup(false);
+        return { success: true };
       } catch (error) {
-        console.log(error)
+        console.log(error);
+        return { success: false, message: "Failed to add workoutName"}
       }
     }
 
@@ -475,6 +471,7 @@ function WorkoutsContextProvider({ children }) {
     saveWorkout,
     deleteWorkout,
     latestData,
+    addWorkoutName,
   };
   return (
     <WorkoutsContext.Provider value={workoutsValue}>
