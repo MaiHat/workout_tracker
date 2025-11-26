@@ -9,6 +9,7 @@ export default function WorkoutList({selectedDate, onEdit, onDelete, displayedWo
 
   async function handleDelete(workoutId) {
     onDelete(workoutId);
+    
   }
 
   async function handleEdit(workoutId) {

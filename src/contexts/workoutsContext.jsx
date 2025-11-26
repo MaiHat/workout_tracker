@@ -186,7 +186,7 @@ function WorkoutsContextProvider({ children }) {
       byBodyPart: bodyPartStats,
       byWorkoutName: workoutNameStats,
     });
-    console.log(monthlyStats);
+    console.log(monthlyStats, archivedDays);
   }
   
   //workoutsからデータを取り出しmax値を計算、workoutStatsに保存
@@ -379,9 +379,10 @@ function WorkoutsContextProvider({ children }) {
         console.log(error)
       }
     }
+
   async function deleteWorkout(workoutId) {
-  try {
-    // --- ① 削除する前にデータを読み取る ---
+    try {
+    // 削除する前にデータを読み取る
     const workoutRef = doc(db, "users", currentUser.uid, "workouts", workoutId);
     const snap = await getDoc(workoutRef);
 
@@ -393,24 +394,19 @@ function WorkoutsContextProvider({ children }) {
     // 削除前の date を取得
     const workoutDate = snap.data().date.toDate(); 
     console.log("Deleting workout, date:", workoutDate);
-
-    // --- ② 削除 ---
+    // 削除 
     await deleteDoc(workoutRef);
     console.log("Deleted:", workoutId);
-
-    // --- ③ state 更新 ---
-    setDisplayedWorkouts(displayedWorkouts.filter(w => w.id !== workoutId));
-
-    // --- ④ グラフ・一覧更新 ---
+    getMaxDataOfTheDay(workoutDate);
+    getMonthlyWorkoutStats();
     fetchWorkoutData();
-
-    // --- ⑤ その日の max を再計算 → stats 更新 or 削除 ---
-    await getMaxDataOfTheDay(workoutDate);
-
-  } catch (error) {
-    console.log(error);
+    return { success: true };
+    
+    } catch (e) {
+    console.log(e);
+    return { success: false, error: e };
+    }
   }
-}
 
 
   const workoutsValue = {

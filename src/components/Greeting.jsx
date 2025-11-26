@@ -116,6 +116,14 @@ export default function Greeting() {
     console.log("done!");
   }
  }
+
+ async function handleDelete(workoutId) {
+  const result = deleteWorkout(workoutId);
+  if (result.success) {
+    setDetailsPopup(false);    
+    console.log("done delete")
+  }
+ }
  
   async function handleCreateWorkout(e) {
     e.preventDefault();
@@ -196,7 +204,7 @@ export default function Greeting() {
           setDetailsPopup={setDetailsPopup}
           isLoaing={isLoading}
           onEdit={handleEditWorkout} 
-          onDelete={deleteWorkout}
+          onDelete={handleDelete}
           displayedWorkouts={displayedWorkouts}
           fetchWorkoutData={fetchWorkoutData} />
 
