@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useAuth } from "../contexts/authContext";
-import { collection, getDocs, addDoc, doc, setDoc, Timestamp, query, where } from "firebase/firestore";
-import { db } from "../firebase/firebase";
-
 
 export default function WorkoutList({selectedDate, onEdit, onDelete, displayedWorkouts, fetchWorkoutData }) {
   const { currentUser } = useAuth();
 
   async function handleDelete(workoutId) {
     onDelete(workoutId);
-    
   }
 
   async function handleEdit(workoutId) {

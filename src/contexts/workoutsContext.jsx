@@ -432,6 +432,7 @@ function WorkoutsContextProvider({ children }) {
     fetchPrevWorkout,
     saveWorkout,
     deleteWorkout,
+    latestData,
   };
   return (
     <WorkoutsContext.Provider value={workoutsValue}>

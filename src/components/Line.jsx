@@ -14,106 +14,78 @@ import { useWorkouts } from "../contexts/workoutsContext";
 export const LineGraph = () => {
   const { monthlyStats } = useWorkouts();
 
-  const [viewMode, setViewMode] = useState("all"); 
+  const [selectedType, setSelectedType] = useState("all"); 
   const [selectedKey, setSelectedKey] = useState("");
 
   // bodyPart / workoutName のキー一覧
   const bodyPartKeys = Object.keys(monthlyStats?.byBodyPart || {});
   const workoutNameKeys = Object.keys(monthlyStats?.byWorkoutName || {});
 
-  // viewMode が切り替わったら最初のキーを自動セット
-  useEffect(() => {
-    if (viewMode === "bodyPart") {
-      setSelectedKey(bodyPartKeys[0] || "");
-    } else if (viewMode === "workoutName") {
-      setSelectedKey(workoutNameKeys[0] || "");
-    } else {
-      setSelectedKey("");
-    }
-  }, [viewMode, bodyPartKeys, workoutNameKeys]);
-
-  // chartData の選択
+  // chart dataの選択
   let chartData = [];
-  if (viewMode === "all") {
+  if (selectedType === "all") {
     chartData = monthlyStats?.all || [];
-  } else if (viewMode === "bodyPart") {
-    chartData = selectedKey
-      ? monthlyStats?.byBodyPart?.[selectedKey] || []
-      : [];
-  } else if (viewMode === "workoutName") {
-    chartData = selectedKey
-      ? monthlyStats?.byWorkoutName?.[selectedKey] || []
-      : [];
+  } else if (selectedType === "bodyPart") {
+    chartData = monthlyStats?.byBodyPart?.[selectedKey] || [];
+  } else if (selectedType === "workoutName") {
+    chartData = monthlyStats?.byWorkoutName?.[selectedKey] || [];
   }
-
-  // 表示するキー（選択ボタン用）
-  const keys =
-    viewMode === "bodyPart"
-      ? bodyPartKeys
-      : viewMode === "workoutName"
-      ? workoutNameKeys
-      : [];
-
-  // データがない場合
-  if (!chartData.length) {
-    return (
-      <div style={{ textAlign: "center" }}>
-        <p>データがありません</p>
-
-        {/* モード切替ボタン */}
-        <div style={{ margin: "1rem 0" }}>
-          <button onClick={() => setViewMode("all")}>All</button>
-          <button onClick={() => setViewMode("bodyPart")}>Body Part</button>
-          <button onClick={() => setViewMode("workoutName")}>Workout Name</button>
-        </div>
-
-        {/* 選択用ボタン */}
-        {keys.length > 0 && (
-          <div style={{ marginTop: "1rem" }}>
-            {keys.map((k) => (
-              <button
-                key={k}
-                onClick={() => setSelectedKey(k)}
-                style={{
-                  margin: "0 0.5rem",
-                  fontWeight: selectedKey === k ? "bold" : "normal",
-                }}
-              >
-                {k}
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  }
-
+  
   return (
-    <div style={{ width: "100%", height: 400 }}>
-      {/* viewMode 切り替えボタン */}
-      <div style={{ marginBottom: "1rem", textAlign: "center" }}>
-        <button onClick={() => setViewMode("all")}>All</button>
-        <button onClick={() => setViewMode("bodyPart")}>By Body Part</button>
-        <button onClick={() => setViewMode("workoutName")}>By Workout Name</button>
-      </div>
+    <div style={{ width: "100%", height: 450, textAlign: "center" }}>
+    {/* ALL */}
+    <div style={{ marginBottom: "1rem"}} >
+      <button onClick={() => {
+        setSelectedType("all");
+        setSelectedKey("");
+       }}
+        style={{ fontWeight: selectedType === "all" ? "bold" : "normal"}}
+      >
+        ALL
+      </button>
+    </div>
 
-      {/* bodyPart / workoutName 選択ボタン */}
-      {keys.length > 0 && (
-        <div style={{ marginBottom: "1rem", textAlign: "center" }}>
-          {keys.map((k) => (
+    {/* bodyPart */}
+      <p><strong>By Body Part/</strong></p>
+        <div style={{ marginBottom: "1rem" }}>
+          {bodyPartKeys.map((bp) => (
             <button
-              key={k}
-              onClick={() => setSelectedKey(k)}
+              key={bp}
+              onClick={() => {
+                setSelectedType("bodyPart");
+                setSelectedKey(bp)
+              }}
               style={{
-                margin: "0 0.5rem",
-                fontWeight: selectedKey === k ? "bold" : "normal",
+                margin: "0 5px",
+                fontWeight: selectedType === "bodyPart" && selectedKey === bp 
+                ? "bold" : "normal",
               }}
             >
-              {k}
+              {bp}
             </button>
           ))}
         </div>
-      )}
+
+      {/* workoutName */}
+      <p><strong>By Workout Name/</strong></p>
+      <div style={{ marginBottom: "1rem" }}>
+        {workoutNameKeys.map((wn) => (
+          <button
+          key={wn}
+          onClick={() => {
+            setSelectedType("workoutName");
+            setSelectedKey(wn)
+          }}
+          style={{
+            margin: "0 5px",
+            fontWeight: selectedType === "workoutName" && selectedKey === wn
+            ? "bold" : "normal",
+          }}
+          >
+            {wn}
+          </button>
+        ))}
+      </div>
 
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={chartData}>
