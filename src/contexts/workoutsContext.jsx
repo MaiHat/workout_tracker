@@ -312,38 +312,81 @@ function WorkoutsContextProvider({ children }) {
     editingWorkoutId
   }) {
     try {
-      if (!isEditing) {
-        const newWorkout = {
-          sets: setsWithRM,
-          date: Timestamp.fromDate(selectedDate || new Date()),
-          bodyPart: selectedWorkout.id,
-          workoutName: selectedWorkout.workoutName,
-          maxWeight: mw,
-          maxRm: mr
-        }
-        await addDoc(collection(db, "users", currentUser.uid, "workouts"), newWorkout);
-          console.log("Workout saved:", newWorkout);
-      } else {
+      const workoutDate = selectedDate || new Date();
+      const workoutName = selectedWorkout.workoutName;
+      const bodyPart = selectedWorkout.id;
+
+      const start =  new Date(workoutDate);
+      start.setHours(0,0,0,0);
+      const end =  new Date(workoutDate);
+      end.setHours(23,59,59,999);
+
+      const workoutRef = collection(db, "users", currentUser.uid, "workouts");
+    
+
+      //編集してる場合
+      if (isEditing) {
         await updateDoc(
           doc(db, "users", currentUser.uid, "workouts", editingWorkoutId),
-            { 
+          {
             sets: setsWithRM,
-            date: Timestamp.fromDate(selectedDate || new Date()),
-            bodyPart: selectedWorkout.id,
-            workoutName: selectedWorkout.workoutName,
+            date: Timestamp.fromDate(workoutDate),
+            bodyPart: bodyPart,
+            workoutName: workoutName,
             maxWeight: mw,
             maxRm: mr,
-            }
+          }
         );
-      }   console.log("succes");
         return { success: true };
-        
-      } catch (e) {
-        console.error(e);
-        return { success: false, error: e };
       }
+     
+      //同じ日に同じ種目のデータがあるか確認
+      const q = query(
+      workoutRef,
+      where("workoutName", "==", workoutName),
+      where("bodyPart", "==", bodyPart),
+      where("date", ">=", start),
+      where("date", "<=", end)
+      );
+
+      const snapshot = await getDocs(q);
+
+      //新規だけど同じ日、同じ種目が存在する => marge
+      if (!snapshot.empty) {
+        const existingDoc = snapshot.docs[0];
+        const existingData = existingDoc.data();
+        const mergedSets = [...existingData.sets, ...setsWithRM];
+
+        const newMaxWeight = Math.max(existingData.maxWeight || 0, mw);
+        const newMaxRm = Math.max(existingData.maxRm || 0, mr);
+
+        await updateDoc(existingDoc.ref, {
+          sets: mergedSets,
+          maxWeight: newMaxWeight,
+          maxRm: newMaxRm,
+        });
+        console.log("workout merged:", mergedSets);
+        return { success: true, merged: true };
+      }
+    
+      //save as new workout
+      const newWorkout = {
+        sets: setsWithRM,
+        date: Timestamp.fromDate(workoutDate),
+        bodyPart: bodyPart,
+        workoutName: workoutName,
+        maxWeight: mw,
+        maxRm: mr,
+      }
+      await addDoc(workoutRef, newWorkout);
+      console.log("Workout saved:", newWorkout);
+      return { success: true };
+    } catch (e) {
+      console.error(e);
+      return { success: false, error: e };
     }
-   
+  }
+  
     async function handleCreateWorkout(e) {
       e.preventDefault();
       const bodyPart = e.target.bodyPart.value.trim();
@@ -407,7 +450,6 @@ function WorkoutsContextProvider({ children }) {
     return { success: false, error: e };
     }
   }
-
 
   const workoutsValue = {
     fetchBodyParts,
