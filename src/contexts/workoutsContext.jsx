@@ -387,18 +387,20 @@ function WorkoutsContextProvider({ children }) {
     }
   }
   
-  async function addWorkoutName(bodyPart, workoutName, currentUser) {
-    if(!bodyPart || !workoutName) return { success: false, messase: "fill in both fields." };
+  async function addWorkoutName(rawBodyPart, rawWorkoutName, compareBodyPart, compareWorkoutName, currentUser) {
+    console.log("called ", rawBodyPart, rawWorkoutName, compareBodyPart, compareWorkoutName);
+    if(!rawBodyPart || !rawWorkoutName) return { success: false, messase: "fill in both fields." };
       try {
-        const existingPart = bodyParts.find(part => part.id === bodyPart); //bodyPartが既に存在していればexistingPartとする
+        const existingPart = bodyParts.find(part => part.id.toLowerCase() === compareBodyPart); //bodyPartが既に存在していればexistingPartとする
 
         if (existingPart) { //bodyPartがすでに存在して
-          if (existingPart.workoutNames.includes(workoutName)) { //workoutNameも存在するとき
+          const workoutExists = existingPart.workoutNames.find(name => name.toLowerCase() === compareWorkoutName);
+          if (workoutExists) { //workoutNameも存在するとき
             return { success: false, message: "This workout already exists." };
           }
-          const updatedWorkoutNames = [...existingPart.workoutNames, workoutName]; 
+          const updatedWorkoutNames = [...existingPart.workoutNames, rawWorkoutName]; 
           await setDoc(
-            doc(db, "users", currentUser.uid, "bodyParts", bodyPart), 
+            doc(db, "users", currentUser.uid, "bodyParts", existingPart.id), 
             { workoutNames: updatedWorkoutNames },
             { merge: true }
           );
@@ -406,9 +408,9 @@ function WorkoutsContextProvider({ children }) {
           fetchBodyParts();
           } else {
           //} if(!existingPart) {//bodypart存在しないとき //新規作成は　setDoc(doc(db, collection, docID))を使用
-          await setDoc(doc(db, "users", currentUser.uid, "bodyParts", bodyPart), 
+          await setDoc(doc(db, "users", currentUser.uid, "bodyParts", rawBodyPart), 
           //databaseのbodyPartsにid: 新しいbodyPart, workoutNamesの配列にworkoutNameを追加したい
-            { workoutNames: [workoutName] }
+            { workoutNames: [rawWorkoutName] }
           );
           }
           await fetchBodyParts();

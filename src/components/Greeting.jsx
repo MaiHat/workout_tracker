@@ -126,13 +126,10 @@ export default function Greeting() {
   }
  }
  
-  async function handleCreateWorkout(e) {
-    e.preventDefault();
-    const bodyPart = e.target.bodyPart.value.trim();
-    const workoutName = e.target.workoutName.value.trim();
-    const result = await addWorkoutName({
-      bodyPart, workoutName, currentUser
-    });
+  async function handleCreateWorkoutName(rawBodyPart, rawWorkoutName, compareBodyPart, compareWorkoutName) {
+    const result = await addWorkoutName(
+      rawBodyPart, rawWorkoutName, compareBodyPart, compareWorkoutName, currentUser
+    );
     if (!result.success) {
       alert(result.message);
       return;
@@ -189,9 +186,9 @@ export default function Greeting() {
 
         <CreateWorkoutNamePopup 
           createPopup={createPopup}
-          handleCreateWorkout={handleCreateWorkout}
           setCreatePopup={setCreatePopup}
-         />
+          onSave={handleCreateWorkoutName}
+          />
                   
         <LineGraph />
       </div>
