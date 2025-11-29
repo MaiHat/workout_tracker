@@ -10,7 +10,7 @@ import Calendar from './Calendar';
 import AddWorkoutPopup from './AddWorkoutPopup'
 import WorkoutDetailsPopup from './WorkoutDetailsPopup'
 import CreateWorkoutNamePopup from './CreateWorkoutNamePopup'
-import WorkoutList from './WorkoutList';
+import WorkoutList2 from './WorkoutList2';
 import { LineGraph } from './Line';
 {/*
   trying to use workoutlist UI to edit workoutdata and to input new workout
@@ -52,10 +52,10 @@ export default function Greeting() {
     setSelectedDate,
     displayedWorkouts,
     setDisplayedWorkouts,
-    today,
     saveWorkout,
     deleteWorkout,
     addWorkoutName,
+    today
   } = useWorkouts();
 
   const [addPopup, setAddPopup] = useState(false);
@@ -67,9 +67,8 @@ export default function Greeting() {
   const [editingWorkoutId, setEditingWorkoutId] = useState("");
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  
   const [weeklyArchivedDyas, setWeeklyArchivedDays] = useState([]);
-  
+  const [editingWorkout, setEditingWorkout] = useState({});
   
   function handleClickDate(clickedDate) {
     setSelectedDate(clickedDate);
@@ -79,7 +78,7 @@ export default function Greeting() {
   }
 
   function handleClickTodays() {
-    setSelectedDate(today);
+    console.log(today);
     setIsEditing(false);
     setAddPopup(true);
   }
@@ -93,16 +92,18 @@ export default function Greeting() {
     setCreatePopup(true);
   }
 
-  async function handleEditWorkout(workoutId) {
-    setEditingWorkoutId(workoutId);
-    setAddPopup(true);
+  async function handleEditWorkout(workout) {
+    setEditingWorkout(workout);
     setIsEditing(true);
+    setDetailsPopup(true);
+    console.log("editing workout:", workout);
  }
 
  async function handleSubmit (setsWithRM, isEditing, mw, mr) {
   const result = await saveWorkout({
     setsWithRM, 
     isEditing,
+    editingWorkout,
     mw,
     mr,
     selectedWorkout, 
@@ -114,6 +115,7 @@ export default function Greeting() {
     fetchWorkoutData(selectedDate);
     getMonthlyWorkoutStats();
     getMaxDataOfTheDay(selectedDate);
+    isEditing(false);
     console.log("done!");
   }
  }
@@ -159,23 +161,7 @@ export default function Greeting() {
           onClickDate={handleClickDate}
           onHandleClickTodays={handleClickTodays}
           onChangeMonth={handleChangeMonth} />
-        <AddWorkoutPopup
-          addPopup={addPopup}
-          setDetailsPopup={setDetailsPopup}
-          setCreatePopup={setCreatePopup}
-          setAddPopup={setAddPopup}
-          setSelectedWorkout={setSelectedWorkout}
-          isEditing={isEditing}
-        />
-        <WorkoutDetailsPopup 
-        detailsPopup={detailsPopup}
-        selectedWorkout={selectedWorkout}
-        setDetailsPopup={setDetailsPopup}
-        onSubmit={handleSubmit}
-        isEditing={isEditing}
-        setIsLoading={setIsLoading}
-        />
-        <WorkoutList  
+        <WorkoutList2  
           selectedDate={selectedDate}
           setDetailsPopup={setDetailsPopup}
           isLoaing={isLoading}
@@ -183,6 +169,26 @@ export default function Greeting() {
           onDelete={handleDelete}
           displayedWorkouts={displayedWorkouts}
           fetchWorkoutData={fetchWorkoutData} />
+        <AddWorkoutPopup
+          addPopup={addPopup}
+          setDetailsPopup={setDetailsPopup}
+          setCreatePopup={setCreatePopup}
+          setAddPopup={setAddPopup}
+          setSelectedWorkout={setSelectedWorkout}
+          isEditing={isEditing}
+        /> 
+        <WorkoutDetailsPopup 
+        detailsPopup={detailsPopup}
+        selectedWorkout={selectedWorkout}
+        setDetailsPopup={setDetailsPopup}
+        onSubmit={handleSubmit}
+        isEditing={isEditing}
+        setIsEditing={setIsEditing}
+        setIsLoading={setIsLoading}
+        editingWorkout={editingWorkout}
+        selectedDate={selectedDate}
+        />
+       
 
         <CreateWorkoutNamePopup 
           createPopup={createPopup}

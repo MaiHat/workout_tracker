@@ -40,7 +40,7 @@ export default function Calendar({ onClickDate, onHandleClickTodays, onChangeMon
     <div>
       <div className='calendar-app'>
         <div className='calendar'>
-           <div className="calendar--wrapper">
+          
               <div className='navigate-date'>
                 <div className='buttons'>
                   <i className='bx bx-chevron-left' onClick={prevMonth}></i>
@@ -88,14 +88,11 @@ export default function Calendar({ onClickDate, onHandleClickTodays, onChangeMon
                         isTodayなら(今日の日付,月,年であれば) "current-day"のclassNameが<span>につく条件分岐
                         isArchivedなら "archived-day"のclassNameがつく
                           */}
-                
-                <div className='archived-days'>
+              </div>
+              <div className='archived-days'>
                   <h2>Monthy Archived <strong>{monthlyWorkoutDays.length}</strong>days</h2>
                   <button onClick={handleClickTodays}>Today's Training</button>
-                </div>   
-              </div>
-            </div>
-            
+              </div>   
         </div>
       </div>
     </div>

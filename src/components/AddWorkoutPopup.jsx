@@ -27,7 +27,7 @@ export default function AddWorkoutPopup({
       <div className='events'>
               {addPopup &&  (
               <div className='event-popup'>
-                {isEditing ? <p>Edit Workout</p> : <p>Add Workout</p>}
+               <p>Add Workout</p>
                 <h2>{selectedDate ? selectedDate.toLocaleDateString() : ''}</h2>
                 {bodyParts.map((part) => (
                 <div key={part.id}>

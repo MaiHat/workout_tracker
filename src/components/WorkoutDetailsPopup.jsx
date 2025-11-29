@@ -10,46 +10,18 @@ export default function WorkoutDetailsPopup({
   setDetailsPopup,
   onSubmit,
   isEditing,
+  setIsEditing,
+  selectedDate,  
+  editingWorkout,
   }) {  
+    
   const [formData, setFormData] = useState([ { weight: "", reps:"", note: ""}]);
   const { currentUser, username } = useAuth();
   const [maxWeight, setMaxWeight] = useState(0);
   const [maxRm, setMaxRm] = useState(0);
   const { fetchPrevWorkout, latestData } = useWorkouts();
 
-  {/* async function fetchPrevWorkout(selectedWorkout) {
-    const q = query(collection(db, "users", currentUser.uid, "workouts"), 
-      where("bodyPart", "==", selectedWorkout.id),
-      where("workoutName", "==", selectedWorkout.workoutName),
-      orderBy("date", "desc"),
-      limit(1)
-    );
-    try {
-      const snapshot = await getDocs(q);
-      if(!snapshot.empty) {
-        const doc = snapshot.docs[0];
-        const data = doc.data();
-
-        console.log("latest workout:", {
-          date: data.date.toDate(),
-          sets: data.sets
-        });
-        setLatestData({
-          id: doc.id,
-          date: data.date.toDate(),
-          sets: data.sets
-          });
-      } else {
-        console.log("no histry");
-        return null;
-      }
-    } catch (error) {
-        console.log(error);
-        return null;
-      }
-  } */}
-
-  function handleChangeWorkouts(index, e) {
+  function handleChange(index, e) {
     const { name, value } = e.target;
     const updatedSets = [...formData];
     updatedSets[index][name] = value;
@@ -99,6 +71,7 @@ export default function WorkoutDetailsPopup({
     setMaxWeight(mw);
     setMaxRm(mr);
     onSubmit(setsWithRM, isEditing, mw, mr);
+    console.log("submitted:", setsWithRM, isEditing, mw, mr)
     setDetailsPopup(false);
   }
 
@@ -112,15 +85,133 @@ export default function WorkoutDetailsPopup({
   const { maxWeight: mw, maxRm: mr } = calcMaxFromSets(formData);
   setMaxWeight(mw);
   setMaxRm(mr);
-}, [formData]);
+  }, [formData]);
 
-  return (
+  useEffect (() => {
+    if (detailsPopup === false) return;
+
+    if (isEditing && editingWorkout) {
+   setFormData(
+    editingWorkout.sets.map((set) => ({
+      weight: set.weight || "",
+      reps: set.reps || "",
+      note: set.note || "",
+      RM: set.RM || "",
+    }))
+    );
+  } else {
+    setFormData([ { weight: "", reps:"", note: ""}]);
+    }
+  }, [detailsPopup, editingWorkout, isEditing]
+);
+
+
+     return (
+    <>
+      {((detailsPopup && selectedWorkout) || (detailsPopup && isEditing)) ? (
+        <div className="event-popup-container">
+          <div className="event">
+
+            {/* ヘッダー */}
+            <div className="event-header">
+              <p>{isEditing ? "Edit Workout" : "Add Workout"}</p>
+              <button
+                className="close-btn"
+                onClick={() => {
+                  setDetailsPopup(false);
+                  setIsEditing(false);
+                }}
+              >
+                ✕
+              </button>
+            </div>
+
+            {/* 名前表示 */}
+            <div className="event-body">
+               {isEditing ? (
+                  <div className="event-parts">
+                    {editingWorkout.date?.toDate().toLocaleDateString()}
+                    {editingWorkout.bodyPart}: {editingWorkout.workoutName} 
+                  </div>
+                    ) : (
+                  <div className="event-parts">
+                    {selectedDate.toLocaleDateString() }
+                    {selectedWorkout.id}: {selectedWorkout.workoutName}
+                  </div>
+                )}
+
+              {/* 過去データ */}
+              {latestData ? (
+                <>
+                  <p>Last Record: {latestData.date.toLocaleDateString()}</p>
+                  {latestData.sets.map((set, i) => (
+                    <p key={i}>Set {i+1}: {set.weight}kg × {set.reps} reps</p>
+                  ))}
+                </>
+              ) : (
+                <p>No prev record</p>
+              )}
+
+              {/* 入力フォーム */}
+              <form onSubmit={handleSubmit}>
+                {formData.map((set, index) => (
+                  <div className="set-input" key={index}>
+                    <label>Set {index + 1}</label>
+
+                    <input
+                      type="number"
+                      name="weight"
+                      placeholder="Weight"
+                      value={set.weight}
+                      onChange={(e) => handleChange(index, e)}
+                    /> kg 
+
+                    <input
+                      type="number"
+                      name="reps"
+                      placeholder="Reps"
+                      value={set.reps}
+                      onChange={(e) => handleChange(index, e)}
+                    /> Reps
+
+                    <div>RM: {calculateRM(set.weight, set.reps)}</div>
+
+                    <textarea
+                      name="note"
+                      placeholder="Note"
+                      value={set.note}
+                      onChange={(e) => handleChange(index, e)}
+                    />
+                  </div>
+                ))}
+
+                <button type="button" onClick={addSet}>+ Add Set</button>
+
+                {isEditing
+                  ? <button type="submit">Update</button>
+                  : <button type="submit">Save</button>}
+              </form>
+            </div>
+
+          </div>
+        </div>) : null}
+      
+    </>
+  )
+}
+
+  /*return (
     <div>
       <div className='events'>
-              {detailsPopup && selectedWorkout && (
-                <div className='event-popup'>
-                  {isEditing ? <p>Edit Workout</p> : <p>Add Workout</p>}
-                  <h1>{selectedWorkout.workoutName} (from {selectedWorkout.id})</h1>
+        {detailsPopup && selectedWorkout && (
+          <div className='event'>
+            <div className='event-date'>
+              <p>{selectedDate}selectedDate
+              </p>
+            </div>
+            <div className='event-parts'>
+              {selectedWorkout.id}: {selectedWorkout.workoutName}
+            </div>
                   {latestData ? (
                   <>
                   <p>Last Record: {latestData.date.toLocaleDateString()}</p>
@@ -134,7 +225,7 @@ export default function WorkoutDetailsPopup({
                   <p>No prev record</p>
                  )}
                   <form onSubmit={handleSubmit}
-                  className='workoutDetail'
+                  className='event-details'
                   >
                     {formData.map((set, index) => (
                       <div className='set' key={index}>
@@ -146,20 +237,21 @@ export default function WorkoutDetailsPopup({
                         placeholder="Weight"
                         onChange={(e) => handleChangeWorkouts(index, e)}
                         />
+                        kg x 
                         <input
                         type="number"
                         value={set.reps}
                         name="reps"
                         placeholder="Reps"
                         onChange={(e) => handleChangeWorkouts(index, e)}
-                        />
+                        /> Reps 
+                        <div>RM: {calculateRM(set.weight, set.reps)}</div><br />
                         <textarea
                           value={set.note}
                           name="note"
                           onChange={(e) => handleChangeWorkouts(index, e)}
                           placeholder="Note"
                         />
-                        <div>RM: {calculateRM(set.weight, set.reps)}</div>
                     </div>
                     ))}
                   <button type="button" onClick={addSet}>+ Add Set</button>
@@ -179,4 +271,4 @@ export default function WorkoutDetailsPopup({
           </div>
     </div>
   )
-}
+}*/

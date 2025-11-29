@@ -42,6 +42,7 @@ function WorkoutsContextProvider({ children }) {
   async function fetchWorkoutData() {
       //Timestamp is too acurate(by ミリseconds) need to tell where to devide.
       //JSのデータ型をfirestoreのtimestamp型に変換し、0時から11:59までに設定
+      
       const start = Timestamp.fromDate(new Date(
         selectedDate.getFullYear(),
         selectedDate.getMonth(),
