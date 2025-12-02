@@ -18,17 +18,21 @@ export default function AddWorkoutPopup({
     onCreate();
   }
 
+  if(!addPopup) return null;
+
   useEffect( () => {
      if (addPopup) fetchBodyParts();
   }, [addPopup]);
 
   return (
-    <div>
-      <div className='events'>
-              {addPopup &&  (
-              <div className='event-popup'>
+    <div className='event-popup-container'>
+      <div className='event'>
+          <button className="close-btn" onClick={() => setAddPopup(false)}>
+                  <i className='bx bx-x'></i>
+                </button>
+              <div>
                <p>Add Workout</p>
-                <h2>{selectedDate ? selectedDate.toLocaleDateString() : ''}</h2>
+                <p>{selectedDate ? selectedDate.toLocaleDateString() : ''}</p>
                 {bodyParts.map((part) => (
                 <div key={part.id}>
                 <h3>{part.id}</h3>
@@ -49,11 +53,8 @@ export default function AddWorkoutPopup({
                 </div>
               ))}
                 <button onClick={() => setCreatePopup(true)}>Create Work out</button>
-                <button className="close-event-popup" onClick={() => setAddPopup(false)}>
-                  <i className='bx bx-x'></i>
-                </button>
               </div>
-              )}
+              
           </div>
             
     </div>

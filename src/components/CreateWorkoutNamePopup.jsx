@@ -2,7 +2,6 @@ import React, { useRef } from 'react'
 
 export default function CreateWorkoutNamePopup({
   createPopup,
-  handleCreateWorkoutName,
   setCreatePopup,
   onSave
   }) {
@@ -20,45 +19,47 @@ export default function CreateWorkoutNamePopup({
     const compareBodyPart = rawBodyPart.toLowerCase();
     const compareWorkoutName = rawWorkoutName.toLowerCase();
     onSave(rawBodyPart, rawWorkoutName, compareBodyPart, compareWorkoutName);
+    setCreatePopup(false);
   }
  
+  if(!createPopup) return null;
 
 
   return (
-    <div>
-      <div className='events'>
-        {createPopup &&  (
-          <div className='event-popup'>
-            <form onSubmit={handleCreateWorkoutName}>
-                <h1>Create</h1>
-                <label>Parts</label>
-                <input 
-                type="text" 
-                name="bodyPart"
-                placeholder="Body Part"
-                ref={bodyPartRef} 
-                required
-                />
-                <label>Workout Name</label>
-                <input 
-                type="text" 
-                name="workoutName"
-                placeholder="Workout Name" 
-                ref={workoutNameRef}
-                required
-                />
-                <button>Save</button>
-            </form>
+      <div className='event-popup-container'>
+        <div className='event'>
+          <div className='event-header'>
+            <p>Create Workout</p>
             <button 
-              className="close-event-popup"
+              className="close-btn"
               type="button"
               onClick={() => setCreatePopup(false)}
             >
-              <i className='bx bx-x'></i>
+            <i className='bx bx-x'></i>
             </button>
-          </div>
-        )}
+        </div>
+        <div className='event-body'>
+          <form onSubmit={handleCreateWorkoutName}>
+            <label>Parts</label>
+            <input 
+              type="text" 
+              name="bodyPart"
+              placeholder="Body Part"
+              ref={bodyPartRef} 
+              required
+            />
+            <label>Workout Name</label>
+            <input 
+              type="text" 
+              name="workoutName"
+              placeholder="Workout Name" 
+              ref={workoutNameRef}
+              required
+            />
+            <button type="submit">Save</button>
+          </form>
+        </div>
       </div>
     </div>
-  )
+  );
 }
