@@ -17,8 +17,7 @@ import UpdateProfile from "./pages/UpdateProfile";
 function App() {
   return (
     <>
-     <BrowserRouter>
-        <AuthProvider>
+     <AuthProvider>
           <WorkoutsContextProvider>
             <Routes>
               <Route exact path="/" element={<LandingPage />} />
@@ -29,9 +28,8 @@ function App() {
               <Route path="/update-profile" element={<UpdateProfile />} />
             </Routes>
           </WorkoutsContextProvider>
-        </AuthProvider>
-      </BrowserRouter>
-     </>
+      </AuthProvider>
+    </>
   );
 }
 
