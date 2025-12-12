@@ -1,8 +1,27 @@
-$yellow: #eafe02;
-$green: rgb(173, 254, 2);
-$green-rgba: rgba(174, 254, 2, 0.4);
-$black: #000;
+/* Colors */
+$neon: #F0FF40;
+$black: #0D0D0D;
+$dark-gray: #1A1A1A;
+//文字の80%はこの2色で完結見出しは黒、本文はダークグレーがバランス良い
+$light-gray: #E7E7E7; //ボーダー・背景の区切り
+$medium-gray: #6E6E6E; //サブテキスト）
+$white: #FFFFFF; //メインの背景色
+$soft-white: #FAFAFA; //カレンダーやカード用
+
 $light-black: rgb(24, 25, 15);
 $light-black-rgba: rgba(24, 25, 15, 0.5);
+$green: rgb(173, 254, 2);
+$green-rgba: rgba(174, 254, 2, 0.4);
 
-$white: #fff;
+/* Font-family */
+$font-primary: "Bebas Neue", sans-serif;
+$font-secondary: "Open Sans", sans-serif;
+$font-3: "Comfortaa", sans-serif;
+
+/* Font sizes (rem) */
+$font-h1: 2rem;     // 32px
+$font-h2: 1.5rem;   // 24px
+$font-h3: 1.25rem;  // 20px
+$font-body: 1rem;   // 16px
+$font-small: 0.875rem; // 14px
+

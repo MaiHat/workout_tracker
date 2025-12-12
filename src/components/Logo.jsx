@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import { useAuth } from "../contexts/authContext";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 export default function Logo() {
     
@@ -8,14 +8,13 @@ export default function Logo() {
         
         <div className="logo">
             <Link to="/"> 
-            <div className="logo--icon">
-                <i className='bx bx-dumbbell'></i>
-            </div>
-            <div className="logo--text">
-                <span>Fiitness</span>
-                <span>Tracker</span>
-            </div>
-           
+                <div className="logo--text">
+                    <span>Workout</span>
+                    <span>Tracker</span>
+                </div>
+                <div className="logo--icon">
+                   <span class="material-symbols-outlined">exercise</span>
+                </div>
             </Link>
         </div>
        

@@ -1,0 +1,26 @@
+body {
+  font-family: $font-primary;
+  font-size: $font-body;
+  color: $black;
+  background: $black;
+}
+
+h1 {
+  font-size: $font-h1;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: $font-h2;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: $font-h3;
+  font-weight: 600;
+}
+
+p {
+  font-size: $font-body;
+  line-height: 1.6;
+}

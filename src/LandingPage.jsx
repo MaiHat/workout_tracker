@@ -11,15 +11,14 @@ function LandingPage() {
       <div className="left-side">
         <Logo />
         <div className="btn--box">
-        <button className="btn--signup" onClick={() => navigate("/signup")}>SIGN UP</button>
-        <button className="btn--login" onClick={() => navigate("/login")}>LOGIN</button>
+        <button className="btn btn--dark" onClick={() => navigate("/signup")}>SIGN UP</button>
+        <button className="btn btn--dark" onClick={() => navigate("/login")}>LOGIN</button>
         </div>
       </div>
 
       <div className="right-side">
           <div className="rotated-text">
-            <h1 className="rotated-text--1">Level
-              up</h1>
+            <h1 className="rotated-text--1">Level</h1>
             <h1 className="rotated-text--2">Up</h1>
           </div>
           <p>start your fitness game</p>

@@ -17,6 +17,7 @@ import UpdateProfile from "./pages/UpdateProfile";
 function App() {
   return (
     <>
+    <BrowserRouter>
      <AuthProvider>
           <WorkoutsContextProvider>
             <Routes>
@@ -29,6 +30,7 @@ function App() {
             </Routes>
           </WorkoutsContextProvider>
       </AuthProvider>
+    </BrowserRouter>
     </>
   );
 }

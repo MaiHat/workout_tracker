@@ -1,0 +1,22 @@
+input, select, textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 6px;
+  background: #1a1a1a;
+  border: 1px solid $light-gray;
+  color: $white;
+  font-size: $font-body;
+  margin-bottom: 1rem;
+}
+
+input:focus {
+  border-color: $neon;
+  outline: none;
+  box-shadow: 0 0 6px $neon;
+}
+
+label {
+  font-size: $font-small;
+  margin-bottom: 0.5rem;
+  display: block;
+}

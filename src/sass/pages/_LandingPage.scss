@@ -1,0 +1,71 @@
+.landing-page {
+    width: 100%;
+    }
+
+ .left-side {
+    background-image: url(../assets/training_1.jpg);
+    background-size: cover;
+    height: 100vh;
+    width: 50%;
+    float: left;
+    position: relative;
+    }
+
+  .btn--box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: end;
+    width: 100%;
+    position: absolute;
+    bottom: 10rem;
+    
+    button {
+        height: 5rem;
+        width: 33%;
+        font-size: 4rem;
+        margin-bottom: 5rem;
+        line-height: 4rem;
+        }
+        //buttonタグへのスタイル
+    }
+    
+    
+
+
+
+    .right-side {
+        background-color: $neon;
+        position: relative;
+        float: right;
+        height: 100vh;
+        width: 50%;
+        /*.rotated-text {
+            rotate: -90deg;
+            
+        }*/
+        .rotated-text h1{
+            position: absolute;
+            font-size: 20rem; 
+            text-transform: uppercase;
+            float: left;
+            line-height: 14rem;
+        }
+        p {
+            font-size: 3rem; 
+            justify-items: center;
+            float: right;
+            font-family: $font-secondary;
+        }
+    }
+
+.arrows {
+  i {
+        position: absolute;
+        bottom: 1rem;
+        right: 5rem;
+        color: $white;
+        font-size: 20rem;
+        display: block;
+    }
+}
