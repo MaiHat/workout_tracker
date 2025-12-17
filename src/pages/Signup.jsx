@@ -40,55 +40,49 @@ export default function Signup() {
   return (
     <div className='form'>
         <Logo />
-    <div className="form--container" >
-     <div className='form--wrapper'>
-       <div className='form--card'>
-        <div className='form--card-body'>
-        <h2 className="form--title">Sign Up</h2>
-        
-        <form onSubmit={handleSignUp}>
-            <div className='form--group'> 
-                <label>User Name</label>
-                <input 
-                id="userName"
-                type="text" 
-                ref={userNameRef} 
-                required />
+        <div className="form--wrapper">
+            <div className='form--card'>
+                <h2 className="form--title">Sign Up</h2>
+                <form onSubmit={handleSignUp}>
+                    <div> 
+                        <label>User Name</label>
+                        <input 
+                        id="userName"
+                        type="text" 
+                        ref={userNameRef} 
+                        required />
+                    </div>
+                    <div> 
+                        <label>Email</label>
+                        <input id="email" 
+                        type="email" 
+                        ref={emailRef} 
+                        required />
+                    </div>
+                    <div> 
+                        <label>Password</label>
+                        <input 
+                        id="password" 
+                        type="password" 
+                        ref={passwordRef} 
+                        required />
+                    </div>
+                    <div>   
+                        <label>Password Confirmation</label>
+                        <input 
+                        id="password-confirm" 
+                        type="password" 
+                        ref={passwordConfirmRef} 
+                        required />
+                    </div>
+                    {errorMessage && <div className="alert error">{errorMessage}</div>}
+                    <button disabled={loading} className="btn btn--primary" type="submit">Sign Up</button>
+                </form>
+                <div className="form--link">
+                <Link to="/Login">Already have an account?</Link>
+                </div>
             </div>
-            <div className='form--group'> 
-                <label>Email</label>
-                <input id="email" 
-                type="email" 
-                ref={emailRef} 
-                required />
-            </div>
-            <div className='form--group'> 
-                <label>Password</label>
-                <input 
-                id="password" 
-                type="password" 
-                ref={passwordRef} 
-                required />
-            </div>
-            <div className='form--group'>   
-                <label>Password Confirmation</label>
-                <input 
-                id="password-confirm" 
-                type="password" 
-                ref={passwordConfirmRef} 
-                required />
-            </div>
-            {errorMessage && <div className="alert error">{errorMessage}</div>}
-            <button disabled={loading} className="submit-button" type="submit">Sign Up</button>
-        </form>
-        
-        <div className="form--link">
-            <Link to="/Login">Already have an account?</Link>
         </div>
-    </div>
-    </div>
-    </div>
-    </div>
     </div>
   );
 }

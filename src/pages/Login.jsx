@@ -43,31 +43,26 @@ function Login() {
   return (
     <div className="form">
       <Logo />
-      <div className="form--container">
-        <div className="form--wrapper">
-          <div className="form--card">
-            <div className="form--card-body">
-              <h2 className="form--title">LOGIN</h2>
-      
-              <form onSubmit={handleLogin}>
-                <div className="form--group">
-                  <label>Email</label>
-                  <input id="email" type="email" ref={emailRef} required />
-                </div>
-                <div className="form--group" >
-                  <label>Password</label>
-                  <input id="password" type="password" ref={passwordRef} required />
-                </div>
-                {errorMessage && <div className="alert error">{errorMessage}</div>}
-                <button disabled={loading} className="submit-button" type="submit">LOG IN</button>
-              </form>
-              <div className="form--link">
-              <Link to="/forgot-password">Forgot Password?</Link>
-              </div>
-              <div className="form--link">
-              <Link to="/Signup">Do not have account yet?</Link>
-              </div>
+      <div className="form--wrapper">
+        <div className="form--card">
+          <h2 className="form--title">LOGIN</h2>
+          <form onSubmit={handleLogin}>
+            <div >
+              <label>Email</label>
+              <input id="email" type="email" ref={emailRef} required />
             </div>
+            <div>
+              <label>Password</label>
+              <input id="password" type="password" ref={passwordRef} required />
+            </div>
+            {errorMessage && <div className="alert error">{errorMessage}</div>}
+            <button disabled={loading} className="btn btn--primary" type="submit">LOG IN</button>
+          </form>
+          <div className="form--link">
+            <Link to="/forgot-password">Forgot Password?</Link>
+          </div>
+          <div className="form--link">
+            <Link to="/Signup">Do not have account yet?</Link>
           </div>
         </div>
       </div>

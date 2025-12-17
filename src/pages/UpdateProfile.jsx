@@ -2,13 +2,14 @@ import React,{ useState, useRef } from 'react'
 import { Form,  Button, Card, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
+import Logo from "../components/Logo";
 
 export default function UpdateProfile() {
     const userNameRef = useRef();
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
-    const { currentUser, changeEmail, changePassword } = useAuth();
+    const { currentUser, username, changeEmail, changePassword } = useAuth();
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate(); 
@@ -38,58 +39,56 @@ export default function UpdateProfile() {
         }
         setLoading(false);
     } 
-  return (
-    <div>
-    
-    
-      <Card>
-        <Card.Body>
-            <h2 className="text-center mb-4">Update Profile</h2>
 
-            <Form onSubmit={handleSubmit}>
-                <Form.Group id="username">
-                    <Form.Label>New User Name</Form.Label>
-                    <Form.Control 
-                    type="text" 
-                    ref={userNameRef} 
-                    required 
-                    defaultValue={currentUser.username}
-                    />
-                </Form.Group>
-                <Form.Group id="email">
-                    <Form.Label>New Email</Form.Label>
-                    <Form.Control 
-                    type="email" 
-                    ref={emailRef} 
-                    required 
-                    defaultValue={currentUser.email} 
-                    />
-                </Form.Group>
-                <Form.Group id="password">
-                    <Form.Label>New Password</Form.Label>
-                    <Form.Control 
-                    type="password" 
-                    ref={passwordRef} 
-                    placeholder="Leave blank to keep the same" 
-                    />
-                </Form.Group>
-                <Form.Group id="password-confirm">
-                    <Form.Label>Password Confirmation</Form.Label>
-                    <Form.Control 
-                    type="password" 
-                    ref={passwordConfirmRef} 
-                    placeholder="Leave blank to keep the same" 
-                    />
-                </Form.Group>
-                {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
-                <Button disabled={loading} className="w-100" type="submit">Update</Button>
-            </Form>
-        </Card.Body>
-      </Card>
-      <div className="w-100 text-center mt-2">
-         <Link to="/profile">Cancel</Link>
-      </div>
-    
-    </div>
+    return (
+        <div className="form">
+            <Logo />
+            <div className='form--wrapper'>
+                <div className='form--card'>
+                    <h2 className="form--title">Update Profile</h2>
+                    <form onSubmit={handleSubmit}>
+                        <div>
+                            <label>New User Name</label>
+                            <input
+                            id="username"
+                            type="text" 
+                            ref={userNameRef} 
+                            required 
+                            defaultValue={username}/>
+                        </div>
+                        <div>
+                            <label>New Email</label>
+                            <input 
+                            type="email" 
+                            id="email"
+                            ref={emailRef} 
+                            required 
+                            defaultValue={currentUser.email} />
+                        </div>
+                        <div>
+                            <label>New Password</label>
+                            <input
+                            type="password" 
+                            id="password"
+                            ref={passwordRef} 
+                            placeholder="Leave blank to keep the same" />
+                        </div>
+                        <div>
+                            <label>Password Confirmation</label>
+                            <input 
+                            type="password" 
+                            id="password-confirm"
+                            ref={passwordConfirmRef} 
+                            placeholder="Leave blank to keep the same" />
+                        </div>
+                        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
+                        <button disabled={loading} className="btn btn--primary" type="submit">Update</button>
+                    </form>
+                    <div className="form--link">
+                        <Link to="/profile">Cancel</Link>
+                    </div>
+                </div>
+            </div>
+        </div>
   );
 }

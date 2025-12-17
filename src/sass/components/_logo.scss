@@ -1,27 +1,30 @@
 .logo {
-    padding: 1rem;
-}
+    padding: 3rem;
+    color: $black;
+    display: inline-block;
 
-.logo a {
+    a {
     display: flex;
     text-decoration: none;
     align-items: center;
-}
+    color: $black;
+    }
 
-.logo--text {
+    .logo--text {
     display: flex;
     flex-direction: column;
-    font-size: 1.5rem;
+    font-size: 2rem;
     text-transform: uppercase;
     line-height: 1.5rem;
-    color: $black;
-}
+    span {
+            display: block;
+        }
+    }
 
-.logo--icon span {
-    font-size: 3rem;
-    color: $black;
-}
+    .logo--icon {
+        span{
+        font-size: 3.5rem;
 
-.logo--text span {
-    display: block;
+        }
+    }
 }

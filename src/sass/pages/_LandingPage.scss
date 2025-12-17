@@ -1,6 +1,7 @@
 .landing-page {
     width: 100%;
-    }
+    height: 100vh;
+}
 
  .left-side {
     background-image: url(../assets/training_1.jpg);
@@ -15,7 +16,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: end;
     width: 100%;
     position: absolute;
     bottom: 10rem;
@@ -26,46 +26,53 @@
         font-size: 4rem;
         margin-bottom: 5rem;
         line-height: 4rem;
+        border: 2px solid $light-gray;
         }
         //buttonタグへのスタイル
     }
     
-    
-
-
-
     .right-side {
         background-color: $neon;
         position: relative;
         float: right;
         height: 100vh;
         width: 50%;
+        
         /*.rotated-text {
             rotate: -90deg;
-            
-        }*/
-        .rotated-text h1{
+            }*/
+        .rotated-text {
             position: absolute;
+            top: 25%;
+            left: 25%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+            
+           h1{
+            line-height: 20rem;
             font-size: 20rem; 
             text-transform: uppercase;
-            float: left;
-            line-height: 14rem;
+            }
         }
-        p {
-            font-size: 3rem; 
-            justify-items: center;
-            float: right;
-            font-family: $font-secondary;
-        }
-    }
+    }    
 
-.arrows {
-  i {
-        position: absolute;
-        bottom: 1rem;
-        right: 5rem;
+
+.bottom-text {
+    
+    position: absolute;
+    top: 50%;
+    .arrows {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        
+    }
+    p {
+        font-size: 3rem;
+        font-family: $font-secondary;
+        margin-right: 2rem;
+        }
+    i {
+        font-size: 12rem;
         color: $white;
-        font-size: 20rem;
-        display: block;
     }
 }

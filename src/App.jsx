@@ -7,7 +7,7 @@ import Profile from "./pages/Profile";
 import { AuthProvider } from "./contexts/authContext";
 import { WorkoutsContextProvider } from "./contexts/workoutsContext";
 import PrivateRoute from "./components/PrivateRoute";
-import ForgotPassword from "./components/ForgotPassword";
+import ForgotPassword from "./pages/ForgotPassword";
 import UpdateProfile from "./pages/UpdateProfile";
 
 

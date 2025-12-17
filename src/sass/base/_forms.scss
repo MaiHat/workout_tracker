@@ -1,22 +1,65 @@
-input, select, textarea {
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 6px;
-  background: #1a1a1a;
-  border: 1px solid $light-gray;
-  color: $white;
-  font-size: $font-body;
-  margin-bottom: 1rem;
-}
+.form {
 
-input:focus {
-  border-color: $neon;
-  outline: none;
-  box-shadow: 0 0 6px $neon;
-}
+  .logo {
+    a {color: $neon;}
+  }
 
-label {
-  font-size: $font-small;
-  margin-bottom: 0.5rem;
-  display: block;
+  .form--wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .form--card {
+    width:100%;
+    max-width:420px;
+    background: $black;
+    border-radius: 16px;
+    padding:28px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
+    border:1px solid $dark-gray;
+  }
+
+  .form--title {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: $white;
+  }
+
+  input, textarea {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 6px;
+    background: $dark-gray;
+    border: 1px solid $light-gray;
+    color: $white;
+    font-size: $font-body;
+    font-family: $font-secondary;
+    margin-bottom: 1rem;
+  }
+
+  input:focus {
+    border-color: $neon;
+    outline: none;
+    box-shadow: 0 0 6px $neon;
+  }
+
+  label {
+    color: $light-gray;
+    font-size: $font-body;
+    margin-bottom: 0.5rem;
+    display: block;
+  }
+  button {
+    margin: 1rem 0;
+    width: 100%;
+ }
+  .form--link {
+    text-align: center;
+    margin-top: 1rem;
+  }
+
+  a {
+    color: $light-gray;
+  }
 }
