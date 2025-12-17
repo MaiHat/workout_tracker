@@ -25,14 +25,6 @@ function AuthProvider({ children }) {
     const [showProfile, setShowProfile] = useState(true);
     const user = auth.currentUser;
 
-    async function getUserName(username) {
-        if (!auth.currentUser) {
-          throw new Error("No current user found.");
-        }
-        await updateProfile(auth.currentUser, { displayName: username });
-        setUserName(username);
-    }
-
     async function signup(email, password) {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user; //user情報をuserの中に入れている
@@ -54,6 +46,14 @@ function AuthProvider({ children }) {
 
     function resetPassword(email) {
         return sendPasswordResetEmail(auth, email);
+    }
+
+    async function updateUserName(username) {
+        if (!auth.currentUser) {
+          throw new Error("No current user found.");
+        }
+        await updateProfile(auth.currentUser, { displayName: username });
+        setUserName(username);
     }
 
     function changeEmail(email) {
@@ -87,7 +87,7 @@ function AuthProvider({ children }) {
         currentUser,
         showProfile,
         username,
-        getUserName,
+        updateUserName,
         signup,
         login,
         logout,

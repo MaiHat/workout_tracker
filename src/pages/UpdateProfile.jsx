@@ -9,7 +9,7 @@ export default function UpdateProfile() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
-    const { currentUser, username, changeEmail, changePassword } = useAuth();
+    const { currentUser, username, updateUserName, changeEmail, changePassword } = useAuth();
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate(); 
@@ -27,17 +27,37 @@ export default function UpdateProfile() {
             setErrorMessage("Passwords do not match.");
             return;
         }
-    try { 
-        setErrorMessage("");
-        setLoading(true);        
-        //await signup(enteredEmail, enteredPassword);
-       console.log("User signed up successfully!");
-       navigate("/profile");
-        } catch (err) {
-        console.log(err.message);
-        setErrorMessage("Failed to sign up");
+        setErrorMessage("")
+         setLoading(true);
+
+        try { 
+            const promises = [];
+
+        if (enteredName !== username) {
+            promises.push(updateUserName(enteredName));
         }
-        setLoading(false);
+
+        if (enteredEmail !== currentUser.email) {
+            promises.push(changeEmail(enteredEmail));
+        }
+
+        if(enteredPassword) {
+            promises.push(changePassword(enteredPassword));
+        }
+
+        await Promise.all(promises);
+        navigate("/profile");
+
+    } catch (err) {
+        if (err.code === "auth/requires-recent-login") {
+            setErrorMessage("Please log in again to update email or password");
+            navigate("/login");
+        }
+        setErrorMessage("failed update profile.");
+        console.log(err);
+    }
+    
+    setLoading(false);
     } 
 
     return (
