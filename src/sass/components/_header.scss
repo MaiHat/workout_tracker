@@ -1,19 +1,17 @@
 .header {
-    width: 100%;
-    background-color: $neon;
-    border: 0.5rem solid $black;
-
-    &--wrapper {
-        /* clearfix */
-        content: "";
-        clear: both;
-        display: table;
-        
-    }
+    width: 100%;    
     &--left {
         float: left;
+
     }
     &--right {
         float: right;
+        display: flex;
+        justify-content: flex-end;
+        margin: 3rem;
+        a {
+            color: $black;
+            margin-right: 3rem;
+        }
     }
 }

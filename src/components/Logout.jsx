@@ -5,7 +5,8 @@ import { useAuth } from "../contexts/authContext";
 export default function Logout() {
     const [error, setError] = useState("");
     const { logout } = useAuth();
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
+    
     async function handleLogout() {
         setError("");
         
@@ -18,12 +19,10 @@ export default function Logout() {
     }
     
   return (
-    <div>
-       <div className='logout'>
+    <div className='logout'>
         <Link  onClick={handleLogout} to="/">
             LOG OUT
         </Link>
-    </div>
     </div>
   )
 }

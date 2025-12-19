@@ -4,13 +4,13 @@
     a {color: $neon;}
   }
 
-  .form--wrapper {
+  &--wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
   }
 
-  .form--card {
+  &--card {
     width:100%;
     max-width:420px;
     background: $black;
@@ -20,7 +20,7 @@
     border:1px solid $dark-gray;
   }
 
-  .form--title {
+  &--title {
     text-align: center;
     margin-bottom: 1.5rem;
     color: $white;
@@ -54,7 +54,7 @@
     margin: 1rem 0;
     width: 100%;
  }
-  .form--link {
+  &--link {
     text-align: center;
     margin-top: 1rem;
   }

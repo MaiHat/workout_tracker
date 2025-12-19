@@ -13,7 +13,8 @@ import { LineGraph } from '../components/Line';
   TO DO  
   wanna keep number in input box when you edit
   make clean design for profile page
-  make update profile works
+  make update profile works 
+    *changing email, needs to send email to the old address
 
   DONE
   made progress clean design /Dec 16
@@ -141,7 +142,7 @@ export default function Profile() {
 
   return (
     <div>
-      <div className='profile-container'>
+      <div className='main'>
         <Header />
         <Calendar
           onClickDate={handleClickDate}

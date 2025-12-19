@@ -1,19 +1,4 @@
 
-
-/* 
- * {   font-family: "Comfortaa", sans-serif; 
-} 
-*/
-.profile-container {
-    width: 100%;
-    height: 100vh;
-    background-color: $white;
-    display: grid;
-    place-items: center;
-    perspective: 100rem;
-    border: 2px solid blue;
-}
-
 .calendar-app {
     width: 100%;
     min-width: 90vmin;
@@ -41,33 +26,25 @@
 }*/
 
 .calendar {
-    width: 50%;
+    width: 40%;
     border-radius: 1rem;
     border: 0.5rem solid $black;
     padding: 1rem;
     background-color: $soft-white;
-}
-
-.navigate-date {
-    display: flex;
-    align-items: center;
-    column-gap: 1rem;
-    margin: 2rem 4rem 3.5rem 4rem;
     
-}
+    .navigate-date {
+        display: flex;
+        align-items: center;
+        column-gap: 1rem;
+        margin: 2rem 4rem 3.5rem 4rem;
 
-.navigate-date h1 {
-    font-family: "Bebas Neue", sans-serif;
-    font-size: clamp(4rem, 3.8cqi, 7rem);
-    color: black;
-    letter-spacing: 0.3rem;
-    padding: 0 3rem;
-}
-
-.buttons {
-    display: flex;
-    column-gap: 1rem;
-
+        h1 {
+        font-size: clamp(4rem, 3.8cqi, 7rem);
+        color: black;
+        letter-spacing: 0.3rem;
+        padding: 0 3rem;
+        }
+    }
 }
 
 .buttons i {
@@ -87,34 +64,32 @@
     width: 100%;
     display: flex;
     margin: 3rem 0;
-}
-
-.weekdays span {
-    width: calc(100% / 7);
-    font-size: clamp(1rem, 0.8cqi, 1.3rem);
-    font-weight: bold;
-    text-transform: uppercase;
-    color: $black;
-    letter-spacing: 0.1rem;
-    display: flex;
-    justify-content: center;
+    span {
+        width: calc(100% / 7);
+        font-size: clamp(1rem, 0.8cqi, 1.3rem);
+        font-weight: bold;
+        text-transform: uppercase;
+        color: $black;
+        letter-spacing: 0.1rem;
+        display: flex;
+        justify-content: center;
+    }
 }
 
 .days {
     display: flex;
     flex-wrap: wrap;
-}
-
-.days span {
-    font-size: clamp(1.2rem, 1cqi, 1.6rem);
-    width: calc(100% / 7);
-    aspect-ratio: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: $black;
-    cursor: pointer;
-    text-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    span {
+        font-size: clamp(1.2rem, 1cqi, 1.6rem);
+        width: calc(100% / 7);
+        aspect-ratio: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: $black;
+        cursor: pointer;
+        text-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+    }
 }
 
 .current-day {
@@ -132,243 +107,3 @@
   border: 2px solid blue;
   padding: 5px;
 }
-
-.events {
-    width: 100%;
-    height: 100%;
-    padding: 3rem 0;
-    border: 2px solid slateblue;
-    //overflow-y: auto;
-}
-
-/*.events::-webkit-scrollbar {
-  display: none;
-} */
-
-/*.event {
-    width: 100%;
-    height: 7rem;
-    border: 0.1rem solid black;
-    padding: 1.5rem 0;
-    border-radius: 1rem;
-    display: flex;
-    align-items: center;
-    margin-bottom: 2rem;
-    position: relative;
-    background-color: gray;
-}
-
-.event-popup {
-    background-color: gray;
-    position: absolute;
-    width: clamp(25rem, 21cqi, 40rem);
-    aspect-ratio: 10 / 9;
-    border-radius: 1rem;
-    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.3);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    row-gap: 2rem;
-} 
-.event-popup textarea {
-    width: clamp(15rem, 15cqi, 25rem);
-    aspect-ratio: 5 / 2;
-    resize: none;
-    background-color: #0f1319;
-    border: none;
-    padding: 1rem;
-    border-radius: 0.5rem;
-    color: #78879e;
-}
-
-.event-popup textarea:focus {
-    border: 0.1rem solid #00a3ff;
-}
-
-.event-popup textarea::placeholder {
-    font-size: clamp(1rem, 0.8cqi, 1.2rem);
-    color: #78879e;
-}
-
-.event-popup textarea:focus::placeholder {
-    color: transparent;
-}
-
-.event-popup-btn {
-    width: clamp(15rem, 15cqi, 25rem);
-    height: 4rem;
-    background-color: #ef9011;
-    color: black;
-    font-family: "Bebas Neue", sans-serif;
-    font-size: clamp(1.5rem, 1.5cqi, 2.2rem);
-    letter-spacing: 0.1rem;
-    border: none;
-    box-shadow: 0 0 1.5rem 1rem rgba(239, 144, 17, 0.2);
-    cursor: pointer;
-}
-
-.event-popup-btn:active {
-    transform: translateY(0.1rem);
-}
-
-.close-event-popup {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-}
-
-.close-event-popup i {
-    font-size: 2.5rem;
-    color:black;
-}
-
-
-
-
-
-.event-date-wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 25%;
-    border-right: 0.1rem solid $light-black-rgba;
-}
-
-.event-date {
-    font-size: clamp(1rem, 1cqi, 1.2rem);
-    color: $light-black-rgba;
-    border: 0.1rem solid red;
-}
-
-.event-parts {
-    font-size: clamp(1.3rem, 1cqi, 1.6rem);
-    line-height: 4rem;
-    font-weight: bold;
-    color: $light-black-rgba;
-    border: 0.1rem solid yellow;
-}
-
-.event-details {
-    font-size: clamp(1.2rem, 1cqi, 1.4rem);
-    line-height: 2rem;
-    color: $light-black-rgba;
-    width: 75%;
-    padding: 0 3rem 1rem;
-    overflow-wrap: break-word;
-    border: 0.1rem solid green;
-}
-
-.event-buttons {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: 1rem;
-    display: flex;
-    flex-direction: column;
-    row-gap: 1rem;
-}
- .event-buttons i {
-    font-size: 1.6rem;
-    color: $light-black-rgba;
-    cursor: pointer;
- } */
-
- /*@media (max-width: 850px) {
-    .calendar-app {
-        flex-direction: column;
-        row-gap: 2rem;
-        aspect-ratio: 3 / 2;
-    }
-    
-    .calendar {
-        width: 70%;
-        margin: auto;
-    }
-
-    .navigate-date {
-        margin: 1rem 0;
-    }
-
-    .weekdays {
-        margin: 1rem 0;
-    }
-
-    .events {
-        width: 80%;
-        margin: auto;
-    }
-
-    .events-popup {
-        top: 18%;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 60%;
-        aspect-ratio: 4 /3;
-        row-gap: 1rem;
-    }
-
-    .event-popup-time {
-        width: clamp(5rem, 10cqi, 8rem);
-        font-size: clamp(1.5rem, 3cqi, 2.2rem);
-    }
-
-    .time-input input {
-        width: clamp(5rem, 10cqi, 8rem);
-        font-size: clamp(1.2rem, 2cqi, 1.6rem);
-    }
-
-    .event-popup textarea {
-        width: clamp(18rem, 35cqi, 28rem);
-    }
-
-    .event-popup textarea::placeholder {
-        font-size: clamp(1rem, 1.5cqi, 1.2rem);
-    }
-
-    .event-popup-btn {
-        width: clamp(18rem, 35cqi, 28rem);
-        font-size: clamp(1.5rem, 3cqi, 2.2rem);
-    }
-
-    .event-date {
-        font-size: clamp(1rem, 1.4cqi, 1.2rem);
-    }
-    .event-time {
-        font-size: clamp(1rem, 2cqi, 1.6rem);
-    }
-
-    .event-text {
-        font-size: clamp(1rem, 2.5cqi, 1.4rem);
-    } 
-}
-    
-@media (max-width: 500px) {
-    .calendar-app {
-        aspect-ratio: 10 / 9;
-    }
-    
-    .calendar {
-        width: 100%;
-    }
-
-    .event-popup {
-        top: 23%;
-        width: 80%;
-    }
-
-    .events {
-        width: 100%;
-    }
-}
-
-@media (max-width: 375px) {
-    .calendar-app {
-        aspect-ratio: 3 / 2;
-    }
-}
-
-*/

@@ -19,14 +19,7 @@ export default function UpdateProfile() {
         event.preventDefault();
         const enteredName = userNameRef.current.value;
         const enteredEmail = emailRef.current.value;
-        const enteredPassword = passwordRef.current.value;
-        const enteredConfirmPassword = passwordConfirmRef.current.value;
 
-    // パスワードと確認用パスワードが一致しない場合
-        if (enteredPassword !== enteredConfirmPassword) {
-            setErrorMessage("Passwords do not match.");
-            return;
-        }
         setErrorMessage("")
          setLoading(true);
 
@@ -41,18 +34,16 @@ export default function UpdateProfile() {
             promises.push(changeEmail(enteredEmail));
         }
 
-        if(enteredPassword) {
-            promises.push(changePassword(enteredPassword));
-        }
-
         await Promise.all(promises);
         navigate("/profile");
+        console.log("changed profile:", enteredName, enteredEmail);
+
 
     } catch (err) {
-        if (err.code === "auth/requires-recent-login") {
-            setErrorMessage("Please log in again to update email or password");
-            navigate("/login");
-        }
+        //if (err.code === "auth/requires-recent-login") {
+          //  setErrorMessage("Please log in again to update email or password");
+            //navigate("/login");
+        //}
         setErrorMessage("failed update profile.");
         console.log(err);
     }
@@ -84,22 +75,6 @@ export default function UpdateProfile() {
                             ref={emailRef} 
                             required 
                             defaultValue={currentUser.email} />
-                        </div>
-                        <div>
-                            <label>New Password</label>
-                            <input
-                            type="password" 
-                            id="password"
-                            ref={passwordRef} 
-                            placeholder="Leave blank to keep the same" />
-                        </div>
-                        <div>
-                            <label>Password Confirmation</label>
-                            <input 
-                            type="password" 
-                            id="password-confirm"
-                            ref={passwordConfirmRef} 
-                            placeholder="Leave blank to keep the same" />
                         </div>
                         {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
                         <button disabled={loading} className="btn btn--primary" type="submit">Update</button>

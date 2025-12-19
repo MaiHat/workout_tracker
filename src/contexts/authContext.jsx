@@ -57,7 +57,7 @@ function AuthProvider({ children }) {
     }
 
     function changeEmail(email) {
-        return updateEmail(user, email);
+        return updateEmail(auth.currentUser, email);
     }
 
     function changePassword(password) {
