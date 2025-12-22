@@ -4,25 +4,17 @@ import { useWorkouts } from "../contexts/workoutsContext";
 export default function AddWorkoutPopup({
   addPopup,
   setDetailsPopup,
-  handleClickCreate,
   setAddPopup,
   setSelectedWorkout,
-  selectedWorkout,
-  isEditing,
   setCreatePopup,
-}) {
-  const { fetchBodyParts, currentMonth,
-  currentYear, selectedDate, bodyParts, fetchPreWorkout} = useWorkouts();
-
-  function handleCreate(){
-    onCreate();
-  }
-
-  if(!addPopup) return null;
+  }) {
+  const { fetchBodyParts, selectedDate, bodyParts,} = useWorkouts();
 
   useEffect( () => {
      if (addPopup) fetchBodyParts();
-  }, [addPopup]);
+  }, [addPopup, fetchBodyParts]);
+
+  if(!addPopup) return null;
 
   return (
     <div className='event-popup-container'>

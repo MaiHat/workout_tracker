@@ -1,17 +1,31 @@
 .header {
-    width: 100%;    
-    &--left {
-        float: left;
-
+    width: 100%;
+    &--wrapper {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border: 2px solid green;
     }
     &--right {
         float: right;
-        display: flex;
-        justify-content: flex-end;
         margin: 3rem;
+         border: 2px solid blue;
+         display: flex;
         a {
+             border: 2px solid blue;
             color: $black;
             margin-right: 3rem;
         }
     }
+}
+
+.archived-days {
+    border: 2px solid orange;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  h3, h2, button {
+    margin-right: 2rem;
+  }  
 }

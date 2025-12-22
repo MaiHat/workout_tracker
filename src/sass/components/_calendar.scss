@@ -1,15 +1,5 @@
 
-.calendar-app {
-    width: 100%;
-    min-width: 90vmin;
-    aspect-ratio: 3 / 2;  /* width / height */
-    padding: 3rem;
-    display: flex;
-    column-gap: 5rem;
-    position: relative;
-    transform-style: preserve-3d;
-    border: 2px solid skyblue
-}
+
 
 /* Shadow Effect 
 .calendar-app::after {
@@ -26,7 +16,7 @@
 }*/
 
 .calendar {
-    width: 40%;
+    width: 50%;
     border-radius: 1rem;
     border: 0.5rem solid $black;
     padding: 1rem;

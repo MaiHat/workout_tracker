@@ -13,7 +13,7 @@ export default function Logo() {
                     <span>Tracker</span>
                 </div>
                 <div className="logo--icon">
-                   <span class="material-symbols-outlined">exercise</span>
+                   <span className="material-symbols-outlined">exercise</span>
                 </div>
             </Link>
         </div>

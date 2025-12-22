@@ -17,7 +17,7 @@ function WorkoutsContextProvider({ children }) {
   const [currentMonth, setCurrentMonth] = useState(new Date().getMonth()); //今の月 ex, 6月だと5
   const [currentYear, setCurrentYear] = useState(new Date().getFullYear()); //今の年　ex, 2025
   const [monthlyWorkoutDates, setMonthlyWorkoutDates] = useState([]);  
-  const [monthlyWorkoutDays, setMonthlyWorkoutDays] = useState([]);
+  const [monthlyArchivedDays, setMonthlyArchivedDays] = useState([]);
   const [maxRmOfTheDay, setMaxRmOfTheDay] = useState();
   const [maxWeightOfTheDay, setMaxWeightOfTheDay] = useState();
   const [isLoading, setIsLoading] = useState(false);
@@ -128,7 +128,7 @@ function WorkoutsContextProvider({ children }) {
     if (snapshot.empty) {
       console.log("No workout data for this month");
       setMonthlyWorkoutDates([]);
-      setMonthlyWorkoutDays([]);
+      setMonthlyArchivedDays([]);
       setMonthlyStats([]);
       return;
     }
@@ -181,7 +181,7 @@ function WorkoutsContextProvider({ children }) {
     const monthlyWorkoutDates = Array.from(dateSet);
     setMonthlyWorkoutDates(monthlyWorkoutDates);
     const archivedDays = Array.from(daysSet);  //daysは配列ではないので配列にするためのコード
-    setMonthlyWorkoutDays(archivedDays);
+    setMonthlyArchivedDays(archivedDays);
     setMonthlyStats({
       all: allStatsArray,
       byBodyPart: bodyPartStats,
@@ -457,8 +457,8 @@ function WorkoutsContextProvider({ children }) {
     monthlyWorkoutDates,
     setMonthlyWorkoutDates,
     getMonthlyWorkoutStats,
-    monthlyWorkoutDays,
-    setMonthlyWorkoutDays,
+    monthlyArchivedDays,
+    setMonthlyArchivedDays,
     currentMonth,
     setCurrentMonth,
     currentYear,

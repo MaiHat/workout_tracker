@@ -2,12 +2,13 @@
     color: $black;
     display: inline-block;
     margin: 3rem;
-
+    border: 2px solid green;
     a {
     display: flex;
     text-decoration: none;
     align-items: center;
     color: $black;
+    border: 2px solid red;
     }
 
     .logo--text {
@@ -16,15 +17,17 @@
     font-size: 2rem;
     text-transform: uppercase;
     line-height: 1.5rem;
-    span {
+    border: 2px solid red;
+        span {
             display: block;
+            border: 2px solid blue;
         }
     }
 
-    .logo--icon {
+    .logo--icon { 
+        border: 2px solid blue;
         span{
         font-size: 3.5rem;
-
-        }
+    }
     }
 }

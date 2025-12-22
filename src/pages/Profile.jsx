@@ -3,21 +3,23 @@ import { useAuth } from "../contexts/authContext";
 import { useWorkouts } from "../contexts/workoutsContext";
 import { Link, useNavigate } from "react-router-dom";
 import Header from '../components/Header';
+import MonthlyArchivedDays from "../components/MonthlyArchivedDays";
 import Calendar from '../components/Calendar';
 import AddWorkoutPopup from '../components/AddWorkoutPopup'
 import WorkoutDetailsPopup from '../components/WorkoutDetailsPopup'
 import CreateWorkoutNamePopup from '../components/CreateWorkoutNamePopup'
-import WorkoutList2 from '../components/WorkoutList';
+import WorkoutList from '../components/WorkoutList';
 import { LineGraph } from '../components/Line';
 {/*
   TO DO  
   wanna keep number in input box when you edit
   make clean design for profile page
+   delete 5rem margin-bottom in monthly archived days h2 h3
   make update profile works 
     *changing email, needs to send email to the old address
 
   DONE
-  made progress clean design /Dec 16
+  made progress brush up design /Dec 21
   */}
 
 export default function Profile() {
@@ -42,7 +44,6 @@ export default function Profile() {
     saveWorkout,
     deleteWorkout,
     addWorkoutName,
-    today
   } = useWorkouts();
 
   const [addPopup, setAddPopup] = useState(false);
@@ -65,7 +66,7 @@ export default function Profile() {
   }
 
   function handleClickTodays() {
-    console.log(today);
+    setSelectedDate(new Date());
     setIsEditing(false);
     setAddPopup(true);
   }
@@ -141,22 +142,24 @@ export default function Profile() {
   }, [currentUser, currentMonth]);
 
   return (
-    <div>
-      <div className='main'>
-        <Header />
-        <Calendar
-          onClickDate={handleClickDate}
-          onHandleClickTodays={handleClickTodays}
-          onChangeMonth={handleChangeMonth} />
-        <WorkoutList2  
-          selectedDate={selectedDate}
-          setDetailsPopup={setDetailsPopup}
-          isLoaing={isLoading}
-          onEdit={handleEditWorkout} 
-          onDelete={handleDelete}
-          displayedWorkouts={displayedWorkouts}
-          fetchWorkoutData={fetchWorkoutData} />
-        <AddWorkoutPopup
+    <div className="profile"> 
+    <Header />
+    <MonthlyArchivedDays
+      onHandleClickTodays={handleClickTodays} />
+    <div className='main'>
+      <Calendar
+        onClickDate={handleClickDate}
+        onChangeMonth={handleChangeMonth} />
+      <WorkoutList  
+        selectedDate={selectedDate}
+        setDetailsPopup={setDetailsPopup}
+        isLoaing={isLoading}
+        onEdit={handleEditWorkout} 
+        onDelete={handleDelete}
+        displayedWorkouts={displayedWorkouts}
+        fetchWorkoutData={fetchWorkoutData} />
+    </div> 
+      <AddWorkoutPopup
           addPopup={addPopup}
           setDetailsPopup={setDetailsPopup}
           setCreatePopup={setCreatePopup}
@@ -182,9 +185,8 @@ export default function Profile() {
           setCreatePopup={setCreatePopup}
           onSave={handleCreateWorkoutName}
           />
-                  
-        <LineGraph />
-      </div>
+      
+      <LineGraph />
     </div>
   )
 }

@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { useWorkouts } from "../contexts/workoutsContext";
 import WorkoutList from "./WorkoutList";
 
-export default function Calendar({ onClickDate, onHandleClickTodays, onChangeMonth }) {
+export default function Calendar({ onClickDate, onChangeMonth }) {
 
-  const { monthlyWorkoutDays, currentMonth,
+  const { monthlyArchivedDays, currentMonth,
     currentYear, setCurrentMonth, setCurrentYear, selectedDate, setSelectedDate} = useWorkouts();
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const monthsOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", 
@@ -31,13 +31,10 @@ export default function Calendar({ onClickDate, onHandleClickTodays, onChangeMon
     onClickDate(clickedDate);
     console.log("calendar clicked", clickedDate);
   }
-
-  function handleClickTodays() {
-    onHandleClickTodays(); 
-  }
   
   return (
-    <div className='calendar-app'>
+    <>
+     
        <div className='calendar'>    
           <div className='navigate-date'>
             <div className='buttons'>
@@ -64,7 +61,7 @@ export default function Calendar({ onClickDate, onHandleClickTodays, onChangeMon
 
             {[...Array(daysInMonth).keys()].map((day) => {
               const dateNumber = day + 1;
-              const isArchived = monthlyWorkoutDays.includes(dateNumber);
+              const isArchived = monthlyArchivedDays.includes(dateNumber);
               const isToday = 
               dateNumber === today.getDate() &&
               currentMonth === today.getMonth() &&
@@ -86,11 +83,8 @@ export default function Calendar({ onClickDate, onHandleClickTodays, onChangeMon
                         isArchivedなら "archived-day"のclassNameがつく
                           */}
           </div>
-          <div className='archived-days'>
-                  <h2>Monthy Archived <strong>{monthlyWorkoutDays.length}</strong>days</h2>
-                  <button onClick={handleClickTodays}>Today's Training</button>
-          </div>   
+          
         </div>
-      </div>
+    </>
   )
 }
