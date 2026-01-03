@@ -17,7 +17,6 @@
 
   &--card {
     width: 100%;
-    max-width: 480px;
     background-color: $soft-white;
     padding: 14px;
     border-radius: 10px;
@@ -28,14 +27,13 @@
 
   &--header {
     display: flex;
-    margin-bottom: 1rem;
     justify-content: space-between;
-
-    &--title {
-      margin: 0 auto;
-    }
   }
 
+ &--title {
+      margin: 0 auto;
+    }
+    
   &--body {
     display: flex;
     margin-bottom: 1rem;

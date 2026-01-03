@@ -10,6 +10,7 @@ import WorkoutDetailsPopup from '../components/WorkoutDetailsPopup'
 import CreateWorkoutNamePopup from '../components/CreateWorkoutNamePopup'
 import WorkoutList from '../components/WorkoutList';
 import { LineGraph } from '../components/Line';
+import AddWorkoutButton from '../components/AddWorkoutButton';
 {/*
   TO DO  
   wanna keep number in input box when you edit
@@ -60,11 +61,14 @@ export default function Profile() {
   
   function handleClickDate(clickedDate) {
     setSelectedDate(clickedDate);
-    setIsEditing(false);
-    setAddPopup(true);
     getMaxDataOfTheDay(clickedDate);
   }
 
+  function handleClickAddWorkout() {
+    setIsEditing(false);
+    setAddPopup(true);
+  }
+  
   function handleClickTodays() {
     setSelectedDate(new Date());
     setIsEditing(false);
@@ -150,6 +154,7 @@ export default function Profile() {
       <Calendar
         onClickDate={handleClickDate}
         onChangeMonth={handleChangeMonth} />
+
       <WorkoutList  
         selectedDate={selectedDate}
         setDetailsPopup={setDetailsPopup}
@@ -158,7 +163,10 @@ export default function Profile() {
         onDelete={handleDelete}
         displayedWorkouts={displayedWorkouts}
         fetchWorkoutData={fetchWorkoutData} />
-    </div> 
+    </div>
+      <AddWorkoutButton
+         onAddPopup={handleClickAddWorkout}
+         selectedDate={selectedDate} />
       <AddWorkoutPopup
           addPopup={addPopup}
           setDetailsPopup={setDetailsPopup}
@@ -187,6 +195,7 @@ export default function Profile() {
           />
       
       <LineGraph />
+      
     </div>
   )
 }

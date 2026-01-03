@@ -17,8 +17,8 @@
 
 .calendar {
     width: 40%;
-    border-radius: 1rem;
-    border: 0.5rem solid $black;
+    border-radius: 0.6rem;
+    border: 0.3rem solid $black;
     padding: 3rem;
     background-color: $soft-white;
     
@@ -27,13 +27,10 @@
         align-items: center;
         justify-content: center;
         align-items: center;
-        margin: 2rem 0;
-        
-        h1 {
-        font-size: clamp(4rem, 3.8cqi, 7rem);
-        color: black;
+        margin: 1rem 2rem;
+        gap: 3rem;
+        h2 {
         letter-spacing: 0.3rem;
-        padding: 0 3rem;
         }
     }
 }
@@ -86,10 +83,16 @@
 .current-day {
     background-color: $neon;
     border-radius: 50%;
-    box-shadow: 0 0 1.5rem 1rem $neon;
+    box-shadow: 0 0 1rem 0.3em $neon;
+    
 }
 .archived-day {
   border: 2px solid $neon;
   border-radius: 50%;
   padding: 5px;
+}
+.selected-day {
+    background-color: $neon;
+    opacity: 0.5;
+    border-radius: 50%;
 }

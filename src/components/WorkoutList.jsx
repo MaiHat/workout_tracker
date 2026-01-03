@@ -25,10 +25,10 @@ export default function WorkoutList({
             <div className="workoutlist--title">
             <h3>{workout.bodyPart}: {workout.workoutName}</h3>
             </div>
-         <div className="workoutlist--buttons">
-            <i className='bx bxs-edit-alt' onClick={() => onEdit(workout)}></i>
-            <i className='bx bxs-message-alt-x' onClick={() => onDelete(workout.id)}></i>
-          </div>
+            <div className="workoutlist--buttons">
+                <i className='bx bxs-edit-alt' onClick={() => onEdit(workout)}></i>
+                <i className='bx bxs-message-alt-x' onClick={() => onDelete(workout.id)}></i>
+            </div>
          </div>
          {workout.sets.map((set, i) => (
             <div key={i} className="workoutlist--set">

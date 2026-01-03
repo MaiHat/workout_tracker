@@ -5,7 +5,8 @@ import WorkoutList from "./WorkoutList";
 export default function Calendar({ onClickDate, onChangeMonth }) {
 
   const { monthlyArchivedDays, currentMonth,
-    currentYear, setCurrentMonth, setCurrentYear, selectedDate, setSelectedDate} = useWorkouts();
+    currentYear, setCurrentMonth, setCurrentYear, 
+    selectedDate, setSelectedDate} = useWorkouts();
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const monthsOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", 
     "Aug", "Sep", "Oct", "Nov", "Dec" ];
@@ -40,8 +41,8 @@ export default function Calendar({ onClickDate, onChangeMonth }) {
             <div className='buttons'>
               <i className='bx bx-chevron-left' onClick={prevMonth}></i>
             </div>
-            <h1 className='month'>{monthsOfYear[currentMonth]}</h1>
-            <h1 className='year'>{currentYear}</h1>
+            <h2 className='month'>{monthsOfYear[currentMonth]}</h2>
+            <h2 className='year'>{currentYear}</h2>
             <div className='buttons'>
               <i className='bx bx-chevron-right' onClick={nextMonth}></i>
             </div>
@@ -63,12 +64,16 @@ export default function Calendar({ onClickDate, onChangeMonth }) {
               const dateNumber = day + 1;
               const isArchived = monthlyArchivedDays.includes(dateNumber);
               const isToday = 
-              dateNumber === today.getDate() &&
-              currentMonth === today.getMonth() &&
-              currentYear === today.getFullYear();
+                dateNumber === today.getDate() &&
+                currentMonth === today.getMonth() &&
+                currentYear === today.getFullYear();
+              const isSelected = selectedDate && 
+              dateNumber === selectedDate.getDate() &&
+              currentMonth === selectedDate.getMonth() &&
+              currentYear === selectedDate.getFullYear();
                 return (
                   <span key={dateNumber}
-                    className={`${isToday ? "current-day" : ""} ${isArchived ? "archived-day" : ""}`}
+                    className={`${isToday ? "current-day" : ""} ${isArchived ? "archived-day" : ""} ${isSelected ? "selected-day" : ""}`}
                     onClick={() => handleClickDate(dateNumber)}
                   >
                     {dateNumber}
@@ -76,12 +81,11 @@ export default function Calendar({ onClickDate, onChangeMonth }) {
                );
               })
             } 
-                { /* Array(daysInMonth).keys()
-                        月の日数分（28〜31日）だけ数列を作る → 例: [0, 1, 2, ..., 30]（31日分）
-                        .map((day) => <span key={day + 1}>    day は 0〜30（0始まり）なので、day + 1 が実際のカレンダー日
-                        isTodayなら(今日の日付,月,年であれば) "current-day"のclassNameが<span>につく条件分岐
-                        isArchivedなら "archived-day"のclassNameがつく
-                          */}
+    { /* Array(daysInMonth).keys()
+      月の日数分（28〜31日）だけ数列を作る → 例: [0, 1, 2, ..., 30]（31日分）
+      .map((day) => <span key={day + 1}>    day は 0〜30（0始まり）なので、day + 1 が実際のカレンダー日
+      isTodayなら(今日の日付,月,年であれば) "current-day"のclassNameが<span>につく条件分岐
+      isArchivedなら "archived-day"のclassNameがつく */}
           </div>
           
         </div>

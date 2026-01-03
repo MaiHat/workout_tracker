@@ -18,8 +18,11 @@ h3 {
   font-size: $font-h3;
   font-weight: 600;
 }
+h4{
+ font-size: $font-body;  
+}
 
 p {
-  font-size: $font-body;
+  font-size: $font-small;
   line-height: 1.6;
 }

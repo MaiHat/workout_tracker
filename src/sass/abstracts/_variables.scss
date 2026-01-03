@@ -1,5 +1,6 @@
 /* Colors */
-$neon: #F0FF40;
+$neon: #efff40;
+$light-neon: #eaf855;
 $black: #0D0D0D;
 $dark-gray: #1A1A1A;
 //文字の80%はこの2色で完結見出しは黒、本文はダークグレーがバランス良い
@@ -10,8 +11,8 @@ $soft-white: #FAFAFA; //カレンダーやカード用
 
 $light-black: rgb(24, 25, 15);
 $light-black-rgba: rgba(24, 25, 15, 0.5);
-$green: rgb(173, 254, 2);
-$green-rgba: rgba(174, 254, 2, 0.4);
+$neon-green: rgb(173, 254, 2);
+$green: rgba(174, 254, 2, 0.4);
 
 /* Font-family */
 $font-primary: "Bebas Neue", sans-serif;
@@ -24,5 +25,5 @@ $font-h1: 5rem;
 $font-h2: 4rem;   
 $font-h3: 3rem;  
 $font-body: 2rem;   
-$font-small: 1rem;
+$font-small: 1.5rem;
 

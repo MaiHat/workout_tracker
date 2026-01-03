@@ -111,31 +111,35 @@ export default function WorkoutDetailsPopup({
       {((detailsPopup && selectedWorkout) || (detailsPopup && isEditing)) ? (
         <div className="popup">
           <div className="popup--wrapper">
-          <div className="popup--card">
+            <div className="popup--card">
             {/* ヘッダー */}
             <div className="popup--header">
               {/* 名前表示 */}
               {isEditing ? (
-                <div className="event-parts">
-                  {editingWorkout.date?.toDate().toLocaleDateString()}
-                  {editingWorkout.bodyPart}: {editingWorkout.workoutName} 
-                </div>
-                ) : (
-                <div className="event-parts">
-                  {selectedDate.toLocaleDateString() }
-                  {selectedWorkout.id}: {selectedWorkout.workoutName}
-                </div>
+              <h4> {editingWorkout.date?.toDate().toLocaleDateString()}</h4>
+              ) : (
+              <h4>{selectedDate.toLocaleDateString() }</h4>
               )}
-              <p>{isEditing ? "Edit Workout" : "Add Workout"}</p>
+              <div>{isEditing ? "Edit Workout" : "Add Workout"}</div>
               <button className="close-btn" type="button"
                 onClick={() => {
                   setDetailsPopup(false);
                   setIsEditing(false);
                 }}>
                 <i className='bx bx-x'></i>
-              </button>
-            </div>
-            <div className="event-body">
+              </button> 
+              </div>
+              {isEditing ? (
+              <div className='popup--title'>
+                <h3>{editingWorkout.bodyPart}: {editingWorkout.workoutName}</h3> 
+              </div>
+             ) : (
+              <div className='popup--title'> 
+                <h3>{selectedWorkout.id}: {selectedWorkout.workoutName}</h3>
+              </div>
+              )}
+           
+            <div className="body">
               {/* 過去データ */}
               {latestData ? (
                 <>
