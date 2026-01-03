@@ -19,10 +19,10 @@ export default function Logout() {
     }
     
   return (
-    <div className='logout'>
+    <>
         <Link  onClick={handleLogout} to="/">
             LOG OUT
         </Link>
-    </div>
+    </>
   )
 }

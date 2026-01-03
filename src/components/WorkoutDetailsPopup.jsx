@@ -106,40 +106,36 @@ export default function WorkoutDetailsPopup({
 );
 
 
-     return (
+  return (
     <>
       {((detailsPopup && selectedWorkout) || (detailsPopup && isEditing)) ? (
-        <div className="event-popup-container">
-          <div className="event">
-
+        <div className="popup">
+          <div className="popup--wrapper">
+          <div className="popup--card">
             {/* ヘッダー */}
-            <div className="event-header">
+            <div className="popup--header">
+              {/* 名前表示 */}
+              {isEditing ? (
+                <div className="event-parts">
+                  {editingWorkout.date?.toDate().toLocaleDateString()}
+                  {editingWorkout.bodyPart}: {editingWorkout.workoutName} 
+                </div>
+                ) : (
+                <div className="event-parts">
+                  {selectedDate.toLocaleDateString() }
+                  {selectedWorkout.id}: {selectedWorkout.workoutName}
+                </div>
+              )}
               <p>{isEditing ? "Edit Workout" : "Add Workout"}</p>
-              <button
-                className="close-btn"
+              <button className="close-btn" type="button"
                 onClick={() => {
                   setDetailsPopup(false);
                   setIsEditing(false);
-                }}
-              >
-                ✕
+                }}>
+                <i className='bx bx-x'></i>
               </button>
             </div>
-
-            {/* 名前表示 */}
             <div className="event-body">
-               {isEditing ? (
-                  <div className="event-parts">
-                    {editingWorkout.date?.toDate().toLocaleDateString()}
-                    {editingWorkout.bodyPart}: {editingWorkout.workoutName} 
-                  </div>
-                    ) : (
-                  <div className="event-parts">
-                    {selectedDate.toLocaleDateString() }
-                    {selectedWorkout.id}: {selectedWorkout.workoutName}
-                  </div>
-                )}
-
               {/* 過去データ */}
               {latestData ? (
                 <>
@@ -148,7 +144,7 @@ export default function WorkoutDetailsPopup({
                     <p key={i}>Set {i+1}: {set.weight}kg × {set.reps} reps</p>
                   ))}
                 </>
-              ) : (
+                ) : (
                 <p>No prev record</p>
               )}
 
@@ -156,8 +152,8 @@ export default function WorkoutDetailsPopup({
               <form onSubmit={handleSubmit}>
                 {formData.map((set, index) => (
                   <div className="set-input" key={index}>
+                   <div>
                     <label>Set {index + 1}</label>
-
                     <input
                       type="number"
                       name="weight"
@@ -173,8 +169,8 @@ export default function WorkoutDetailsPopup({
                       value={set.reps}
                       onChange={(e) => handleChange(index, e)}
                     /> Reps
-
-                    <div>RM: {calculateRM(set.weight, set.reps)}</div>
+                    RM: {calculateRM(set.weight, set.reps)}
+                  </div>
 
                     <textarea
                       name="note"
@@ -192,83 +188,10 @@ export default function WorkoutDetailsPopup({
                   : <button type="submit">Save</button>}
               </form>
             </div>
-
+            </div>
           </div>
         </div>) : null}
       
     </>
   )
 }
-
-  /*return (
-    <div>
-      <div className='events'>
-        {detailsPopup && selectedWorkout && (
-          <div className='event'>
-            <div className='event-date'>
-              <p>{selectedDate}selectedDate
-              </p>
-            </div>
-            <div className='event-parts'>
-              {selectedWorkout.id}: {selectedWorkout.workoutName}
-            </div>
-                  {latestData ? (
-                  <>
-                  <p>Last Record: {latestData.date.toLocaleDateString()}</p>
-                    {latestData.sets.map((set, index) => (
-                      <div key={index}>
-                        Set {index + 1}: {set.weight}kg x {set.reps} reps
-                      </div>
-                    ))}
-                  </>
-                 ) : (
-                  <p>No prev record</p>
-                 )}
-                  <form onSubmit={handleSubmit}
-                  className='event-details'
-                  >
-                    {formData.map((set, index) => (
-                      <div className='set' key={index}>
-                        <label>Set {index + 1}</label>
-                        <input
-                        type="number"
-                        value={set.weight}
-                        name="weight"
-                        placeholder="Weight"
-                        onChange={(e) => handleChangeWorkouts(index, e)}
-                        />
-                        kg x 
-                        <input
-                        type="number"
-                        value={set.reps}
-                        name="reps"
-                        placeholder="Reps"
-                        onChange={(e) => handleChangeWorkouts(index, e)}
-                        /> Reps 
-                        <div>RM: {calculateRM(set.weight, set.reps)}</div><br />
-                        <textarea
-                          value={set.note}
-                          name="note"
-                          onChange={(e) => handleChangeWorkouts(index, e)}
-                          placeholder="Note"
-                        />
-                    </div>
-                    ))}
-                  <button type="button" onClick={addSet}>+ Add Set</button>
-                  {isEditing?
-                    <button type="submit" //onClick={()=> handleEdit()}
-                    >Update</button>:
-                    <button type="submit" //onClick={()=> handleSubmit()}
-                    >Save</button>
-                  } 
-                  
-                  </form>
-                  <button className="close-event-popup" onClick={() => setDetailsPopup(false)}>
-                    <i className='bx bx-x'></i>
-                  </button>
-                </div>
-              )}
-          </div>
-    </div>
-  )
-}*/

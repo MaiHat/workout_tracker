@@ -15,46 +15,33 @@ export default function WorkoutList({
   }, [selectedDate]);
 
   return (
-    <div className="events-list">
+    <div className="workoutlists">
       {displayedWorkouts.map((workout) => (
-        <div className="event" key={workout.id}>
-          
-          {/* ヘッダー */}
-          <div className="event-header">
-            <div className="event-date">
-              {workout.date?.toDate().toLocaleDateString()}
+        <div className="workoutlist" key={workout.id}>
+          <div className="workoutlist--header">
+            <div className="workoutlist--date">
+                {workout.date?.toDate().toLocaleDateString()}
             </div>
-            <div className="event-buttons">
-              <i
-                className='bx bxs-edit-alt'
-                onClick={() => onEdit(workout)}
-              ></i>
-              <i
-                className='bx bxs-message-alt-x'
-                onClick={() => onDelete(workout.id)}
-              ></i>
+            <div className="workoutlist--title">
+            <h3>{workout.bodyPart}: {workout.workoutName}</h3>
             </div>
+         <div className="workoutlist--buttons">
+            <i className='bx bxs-edit-alt' onClick={() => onEdit(workout)}></i>
+            <i className='bx bxs-message-alt-x' onClick={() => onDelete(workout.id)}></i>
           </div>
-
-          {/* ボディ */}
-          <div className='event-body'>
-            <div className='event-parts'>
-              {workout.bodyPart}: {workout.workoutName}
+         </div>
+         {workout.sets.map((set, i) => (
+            <div key={i} className="workoutlist--set">
+              <div className='space'>Set {i+1}: </div>
+              <div className='record space'><h3>{set.weight}</h3> kg </div>
+              <p className='space'> x </p>
+              <div className='record space'><h3>{set.reps}</h3> Reps  </div>
+              <div className='space'>  RM: {set.RM} </div>
+              <div className='space'>Note: {set.note}</div>
             </div>
-
-            {workout.sets.map((set, i) => (
-              <div key={i} className="event-set">
-                Set {i+1}: {set.weight} kg x {set.reps} Reps  
-                <br />
-                RM: {set.RM}  
-                <br />
-                Note: {set.note}
-              </div>
-            ))}
-          </div>
-
+          ))}
         </div>
       ))}
-    </div>
+  </div>
   )
 }

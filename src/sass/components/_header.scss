@@ -4,23 +4,19 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        border: 2px solid green;
     }
     &--right {
         float: right;
         margin: 3rem;
-         border: 2px solid blue;
-         display: flex;
+        display: flex;
         a {
-             border: 2px solid blue;
-            color: $black;
-            margin-right: 3rem;
+          color: $black;
+          margin-right: 3rem;
         }
     }
 }
 
 .archived-days {
-    border: 2px solid orange;
     display: flex;
     justify-content: center;
     align-items: center;

@@ -17,38 +17,40 @@ export default function AddWorkoutPopup({
   if(!addPopup) return null;
 
   return (
-    <div className='event-popup-container'>
-      <div className='event'>
+    <div className='popup'>
+      <div className='popup--wrapper'>
+      <div className='popup--card'>
+        <div className='popup--header'>
+          <p className='popup--header--date'>{selectedDate ? selectedDate.toLocaleDateString() : ''}</p>
+          <p className='popup--header--title'>Add Workout</p>
           <button className="close-btn" onClick={() => setAddPopup(false)}>
-                  <i className='bx bx-x'></i>
-                </button>
-              <div>
-               <p>Add Workout</p>
-                <p>{selectedDate ? selectedDate.toLocaleDateString() : ''}</p>
-                {bodyParts.map((part) => (
-                <div key={part.id}>
-                <h3>{part.id}</h3>
-                  {part.workoutNames.map((wn, idx) => (
-                  <button 
+            <i className='bx bx-x'></i>
+          </button>
+        </div>
+        <div className='popup--body'>
+        {bodyParts.map((part) => (
+            <div key={part.id}>
+              <h3>{part.id}</h3>
+              {part.workoutNames.map((wn, idx) => (
+                <button className='btn btn--secondary'
                   key={idx}
                   onClick={() => {setSelectedWorkout({
-                    id: part.id,
-                    index: idx,
-                    workoutName: wn
-                  });
-                  setAddPopup(false);
-                  setDetailsPopup(true);
+                        id: part.id,
+                        index: idx,
+                        workoutName: wn
+                      });
+                    setAddPopup(false);
+                    setDetailsPopup(true);
                   }}>
-                    {wn}
-                  </button>
-                  ))}
-                </div>
+                  {wn}
+                </button>
               ))}
-                <button onClick={() => setCreatePopup(true)}>Create Work out</button>
-              </div>
-              
-          </div>
-            
+            </div>
+          ))}
+        </div>
+        <button className='btn btn--primary' onClick={() => setCreatePopup(true)}>Create Work out</button>
+      </div>
+      </div>
     </div>
   )
 }

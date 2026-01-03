@@ -26,38 +26,41 @@ export default function CreateWorkoutNamePopup({
 
 
   return (
-      <div className='event-popup-container'>
-        <div className='event'>
-          <div className='event-header'>
-            <p>Create Workout</p>
-            <button 
-              className="close-btn"
-              type="button"
-              onClick={() => setCreatePopup(false)}
-            >
-            <i className='bx bx-x'></i>
+    <div className='popup'>
+      <div className='popup--wrapper'>
+        <div className='popup--card'>
+          <div className='popup--header'>
+            <p className='popup--header--title'>Create Workout</p>
+            <button className="close-btn" type="button"
+              onClick={() => setCreatePopup(false)}>
+              <i className='bx bx-x'></i>
             </button>
-        </div>
-        <div className='event-body'>
-          <form onSubmit={handleCreateWorkoutName}>
-            <label>Parts</label>
-            <input 
-              type="text" 
-              name="bodyPart"
-              placeholder="Body Part"
-              ref={bodyPartRef} 
-              required
-            />
-            <label>Workout Name</label>
-            <input 
-              type="text" 
-              name="workoutName"
-              placeholder="Workout Name" 
-              ref={workoutNameRef}
-              required
-            />
-            <button type="submit">Save</button>
-          </form>
+          </div>
+          <div className='popup--body'>
+            <form onSubmit={handleCreateWorkoutName}>
+            <div>
+              <label>Parts</label>
+              <input 
+                type="text" 
+                name="bodyPart"
+                placeholder="Body Part"
+                ref={bodyPartRef} 
+                required
+              />
+            </div>
+            <div>
+              <label>Workout Name</label>
+              <input 
+                type="text" 
+                name="workoutName"
+                placeholder="Workout Name" 
+                ref={workoutNameRef}
+                required
+              />
+            </div>
+            <button className='btn btn--secondary' type="submit">Save</button>
+            </form>
+          </div>
         </div>
       </div>
     </div>

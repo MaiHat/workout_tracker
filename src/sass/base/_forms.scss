@@ -14,7 +14,7 @@
     width:100%;
     max-width:420px;
     background: $black;
-    border-radius: 16px;
+    border-radius: 10px;
     padding:28px;
     box-shadow: 0 6px 18px rgba(0,0,0,0.6);
     border:1px solid $dark-gray;
@@ -50,10 +50,11 @@
     margin-bottom: 0.5rem;
     display: block;
   }
+
   button {
-    margin: 1rem 0;
-    width: 100%;
+   width: 100%;
  }
+ 
   &--link {
     text-align: center;
     margin-top: 1rem;

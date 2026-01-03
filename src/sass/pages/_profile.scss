@@ -7,11 +7,8 @@
 .main {
     width: 100%;
     min-width: 90vmin;
-    aspect-ratio: 3 / 2;  /* width / height */
-    padding: 3rem;
     display: flex;
+    padding: 5rem;
     column-gap: 5rem;
-    position: relative;
-    transform-style: preserve-3d;
-    border: 2px solid skyblue
+    border: 2px solid skyblue;
 }

@@ -1,51 +1,4 @@
-/* カード共通デザイン */
-.events-list {
-  width: 60%;
-}
-.event {
-  background-color: $soft-white;
-  padding: 14px;
-  border-radius: 10px;
-  box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-  margin-bottom: 16px;
-  color: $dark-gray;
-  border: 1px solid $light-gray;
-}
-
-/* ヘッダー配置 */
-.event-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-weight: bold;
-}
-
-/* ボディ部分 */
-.event-body {
-  margin-top: 10px;
-}
-
-.event-parts {
-  font-size: 16px;
-  font-weight: 600;
-  margin-bottom: 8px;
-}
-
-.event-buttons i {
-  font-size: 20px;
-  cursor: pointer;
-  margin-left: 6px;
-}
-
-/* 1セット */
-.set-input {
-  margin-bottom: 15px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-/* ポップアップ */
-.event-popup-container {
+.popup {
   position: fixed;
   top: 0;
   left: 0;
@@ -55,11 +8,66 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
 
-.close-btn {
-  border: none;
-  background: transparent;
-  font-size: 20px;
-  cursor: pointer;
+  &--wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &--card {
+    width: 100%;
+    max-width: 480px;
+    background-color: $soft-white;
+    padding: 14px;
+    border-radius: 10px;
+    box-shadow: 0px 6px 18px rgba(0,0,0,0.6);
+    color: $dark-gray;
+    border: 1px solid $light-gray;
+  }
+
+  &--header {
+    display: flex;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+
+    &--title {
+      margin: 0 auto;
+    }
+  }
+
+  &--body {
+    display: flex;
+    margin-bottom: 1rem;
+
+    input {
+      width: 100%;
+      padding: 0.75rem;
+      border-radius: 3px;
+      margin-bottom: 1rem;
+    }
+
+    input:focus {
+      border-color: $black;
+      outline: none;
+      box-shadow: 0 0 6px $neon;
+    }
+
+    label {
+      font-size: $font-body;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+  
+    button {
+    width: 100%;
+    }
+  }
+
+  .close-btn {
+    border: none;
+    background: transparent;
+    font-size: 20px;
+    cursor: pointer;
+  }
 }
