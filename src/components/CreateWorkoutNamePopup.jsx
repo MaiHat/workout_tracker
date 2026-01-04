@@ -30,7 +30,8 @@ export default function CreateWorkoutNamePopup({
       <div className='popup--wrapper'>
         <div className='popup--card'>
           <div className='popup--header'>
-            <p className='popup--header--title'>Create Workout</p>
+            <div className='for-spacebetween'></div>
+            <h4 className='popup--header--title'>Create Workout</h4>
             <button className="close-btn" type="button"
               onClick={() => setCreatePopup(false)}>
               <i className='bx bx-x'></i>

@@ -1,6 +1,7 @@
 .workoutlists {
   width: 60%;
 }
+
 .workoutlist {
   background-color: $soft-white;
   padding: 14px;
@@ -13,15 +14,21 @@
   &--header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    font-size: $font-body;
+    align-items: baseline;
   }
+
+  &--title {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+    }
 
   &--buttons i {
     font-size: 20px;
     cursor: pointer;
     margin-left: 6px;
   }
+
   &--set {
     display: flex;
     flex-direction: row;
@@ -29,9 +36,11 @@
     text-align: center;
     align-items: baseline;
   }
-  .record {
+
+  .set-data {
     display: flex;
     align-items: baseline;
+
     h3 {
       margin: 0 6px;
     }
@@ -40,9 +49,8 @@
   .space {
     margin-right: 12px;
   }
-
-
 }
+
 /* 1セット */
 .set-input {
   margin-bottom: 15px;

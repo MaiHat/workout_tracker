@@ -20,10 +20,10 @@ export default function WorkoutList({
         <div className="workoutlist" key={workout.id}>
           <div className="workoutlist--header">
             <div className="workoutlist--date">
-                {workout.date?.toDate().toLocaleDateString()}
+               <p>{workout.date?.toDate().toLocaleDateString()}</p> 
             </div>
             <div className="workoutlist--title">
-            <h3>{workout.bodyPart}: {workout.workoutName}</h3>
+            <h4>{workout.bodyPart}:</h4><h3>{workout.workoutName}</h3> 
             </div>
             <div className="workoutlist--buttons">
                 <i className='bx bxs-edit-alt' onClick={() => onEdit(workout)}></i>
@@ -33,9 +33,9 @@ export default function WorkoutList({
          {workout.sets.map((set, i) => (
             <div key={i} className="workoutlist--set">
               <div className='space'>Set {i+1}: </div>
-              <div className='record space'><h3>{set.weight}</h3> kg </div>
+              <div className='set-data space'><h3>{set.weight}</h3> kg </div>
               <p className='space'> x </p>
-              <div className='record space'><h3>{set.reps}</h3> Reps  </div>
+              <div className='set-data space'><h3>{set.reps}</h3> Reps  </div>
               <div className='space'>  RM: {set.RM} </div>
               <div className='space'>Note: {set.note}</div>
             </div>

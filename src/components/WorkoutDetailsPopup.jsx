@@ -112,31 +112,30 @@ export default function WorkoutDetailsPopup({
         <div className="popup">
           <div className="popup--wrapper">
             <div className="popup--card">
-            {/* ヘッダー */}
-            <div className="popup--header">
-              {/* 名前表示 */}
+              <div className="popup--header">
+                {isEditing ? (
+                  <p className='popup--header--date'> {editingWorkout.date?.toDate().toLocaleDateString()}</p>
+                  ) : (
+                  <p className='popup--header--date'>{selectedDate.toLocaleDateString() }</p>
+                )}
+                <div className='popup--header--title'>{isEditing ? "Edit Workout" : "Add Workout"}</div>
+                <button className="close-btn" type="button"
+                  onClick={() => {
+                    setDetailsPopup(false);
+                    setIsEditing(false);
+                  }}>
+                  <i className='bx bx-x'></i>
+               </button> 
+              </div>
+
               {isEditing ? (
-              <h4> {editingWorkout.date?.toDate().toLocaleDateString()}</h4>
-              ) : (
-              <h4>{selectedDate.toLocaleDateString() }</h4>
-              )}
-              <div>{isEditing ? "Edit Workout" : "Add Workout"}</div>
-              <button className="close-btn" type="button"
-                onClick={() => {
-                  setDetailsPopup(false);
-                  setIsEditing(false);
-                }}>
-                <i className='bx bx-x'></i>
-              </button> 
-              </div>
-              {isEditing ? (
-              <div className='popup--title'>
-                <h3>{editingWorkout.bodyPart}: {editingWorkout.workoutName}</h3> 
-              </div>
-             ) : (
-              <div className='popup--title'> 
-                <h3>{selectedWorkout.id}: {selectedWorkout.workoutName}</h3>
-              </div>
+                <div className='popup--title'>
+                  <h4>{editingWorkout.bodyPart}:</h4> <h3>{editingWorkout.workoutName}</h3> 
+                </div>
+                ) : (
+                <div className='popup--title'> 
+                  <h4>{selectedWorkout.id}: </h4><h3>{selectedWorkout.workoutName}</h3>
+                </div>
               )}
            
             <div className="body">

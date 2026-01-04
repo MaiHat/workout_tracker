@@ -22,17 +22,17 @@ export default function AddWorkoutPopup({
       <div className='popup--card'>
         <div className='popup--header'>
           <p className='popup--header--date'>{selectedDate ? selectedDate.toLocaleDateString() : ''}</p>
-          <p className='popup--header--title'>Add Workout</p>
-          <button className="close-btn" onClick={() => setAddPopup(false)}>
+          <h4 className='popup--header--title'>Add Workout</h4>
+          <button className="close-btn" type="button" onClick={() => setAddPopup(false)}>
             <i className='bx bx-x'></i>
           </button>
         </div>
         <div className='popup--body'>
         {bodyParts.map((part) => (
-            <div key={part.id}>
+            <div className='section' key={part.id}>
               <h3>{part.id}</h3>
               {part.workoutNames.map((wn, idx) => (
-                <button className='btn btn--secondary'
+                <button className='wn-btn btn btn--secondary'
                   key={idx}
                   onClick={() => {setSelectedWorkout({
                         id: part.id,

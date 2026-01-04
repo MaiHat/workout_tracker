@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useWorkouts } from "../contexts/workoutsContext";
 import WorkoutList from "./WorkoutList";
 
-export default function Calendar({ onClickDate, onChangeMonth }) {
+export default function Calendar({ onClickDate, onChangeMonth}) {
 
   const { monthlyArchivedDays, currentMonth,
     currentYear, setCurrentMonth, setCurrentYear, 
