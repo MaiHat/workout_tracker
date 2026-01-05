@@ -128,29 +128,31 @@ export default function WorkoutDetailsPopup({
                </button> 
               </div>
 
-              {isEditing ? (
-                <div className='popup--title'>
-                  <h4>{editingWorkout.bodyPart}:</h4> <h3>{editingWorkout.workoutName}</h3> 
-                </div>
-                ) : (
-                <div className='popup--title'> 
-                  <h4>{selectedWorkout.id}: </h4><h3>{selectedWorkout.workoutName}</h3>
-                </div>
-              )}
+              <div className='popup--title'>
+                {isEditing ? (
+                  <div className='workoutname'>
+                    <h4>{editingWorkout.bodyPart}:</h4> <h3>{editingWorkout.workoutName}</h3> 
+                  </div>
+                  ) : (
+                  <div className='workoutname'> 
+                    <h4>{selectedWorkout.id}: </h4><h3>{selectedWorkout.workoutName}</h3>
+                  </div>
+                )}
+                {/* 過去データ */}
+                {latestData ? (
+                  <>
+                    <p className='last-record'>Last Record: {latestData.date.toLocaleDateString()}</p>
+                    {latestData.sets.map((set, i) => (
+                      <p key={i}>Set {i+1}: {set.weight} kg × {set.reps} reps</p>
+                    ))}
+                  </>
+                  ) : (
+                  <p className='last-record'>No prev record</p>
+                )}
+              </div>
            
-            <div className="body">
-              {/* 過去データ */}
-              {latestData ? (
-                <>
-                  <p>Last Record: {latestData.date.toLocaleDateString()}</p>
-                  {latestData.sets.map((set, i) => (
-                    <p key={i}>Set {i+1}: {set.weight}kg × {set.reps} reps</p>
-                  ))}
-                </>
-                ) : (
-                <p>No prev record</p>
-              )}
-
+            <div className="popup--body">
+             
               {/* 入力フォーム */}
               <form onSubmit={handleSubmit}>
                 {formData.map((set, index) => (
@@ -187,8 +189,8 @@ export default function WorkoutDetailsPopup({
                 <button type="button" onClick={addSet}>+ Add Set</button>
 
                 {isEditing
-                  ? <button type="submit">Update</button>
-                  : <button type="submit">Save</button>}
+                  ? <button className='submit-btn' type="submit">Update</button>
+                  : <button className='submit-btn' type="submit">Save</button>}
               </form>
             </div>
             </div>
