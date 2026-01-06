@@ -24,7 +24,13 @@
  .submit-btn {
       display: flex;
       justify-content: center;
-    }
+      gap: 0.5rem;
+
+      span {
+        padding-top: 0.6rem;
+        font-size: 3rem;
+      }
+  }
 
 /* Variations */
 .btn--primary {

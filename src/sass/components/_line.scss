@@ -1,0 +1,31 @@
+.line-graph {
+  width: 100%;
+  height: 45rem;
+  text-align: center;
+  margin: 5rem 0;
+
+  .switching-btn--all {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+  }
+  .switching-btn--bp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+  }  
+
+  .switching-btn--wn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .selected-btn {
+    color: red;
+  }
+
+  
+}

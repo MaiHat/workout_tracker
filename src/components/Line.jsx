@@ -12,7 +12,7 @@ import {
 import { useWorkouts } from "../contexts/workoutsContext";
 
 export const LineGraph = () => {
-  const { monthlyStats } = useWorkouts();
+  const { monthlyStats, selectedDate } = useWorkouts();
 
   const [selectedType, setSelectedType] = useState("all"); 
   const [selectedKey, setSelectedKey] = useState("");
@@ -32,59 +32,60 @@ export const LineGraph = () => {
   }
   
   return (
-    <div style={{ width: "100%", height: 450, textAlign: "center" }}>
-    {/* ALL */}
-    <div style={{ marginBottom: "1rem"}} >
-      <button onClick={() => {
-        setSelectedType("all");
-        setSelectedKey("");
-       }}
-        style={{ fontWeight: selectedType === "all" ? "bold" : "normal"}}
-      >
-        ALL
-      </button>
-    </div>
-
-    {/* bodyPart */}
-      <p><strong>By Body Part/</strong></p>
-        <div style={{ marginBottom: "1rem" }}>
-          {bodyPartKeys.map((bp) => (
-            <button
-              key={bp}
-              onClick={() => {
-                setSelectedType("bodyPart");
-                setSelectedKey(bp)
-              }}
-              style={{
-                margin: "0 5px",
-                fontWeight: selectedType === "bodyPart" && selectedKey === bp 
-                ? "bold" : "normal",
-              }}
+    <div className="line-graph">
+      <div className="line-graph--header">
+        <h1>Your improvement of (selectedMonth)</h1>
+      </div>
+      {/* ALL */}
+      <div className="switching-btn">
+       <div className='switching-btn--all'>
+          <button onClick={() => {
+              setSelectedType("all"); 
+              setSelectedKey("");
+            }}
+            className={selectedType === "all" ? "selected-btn btn--light" : "btn--light"}
             >
-              {bp}
-            </button>
-          ))}
-        </div>
-
-      {/* workoutName */}
-      <p><strong>By Workout Name/</strong></p>
-      <div style={{ marginBottom: "1rem" }}>
-        {workoutNameKeys.map((wn) => (
-          <button
-          key={wn}
-          onClick={() => {
-            setSelectedType("workoutName");
-            setSelectedKey(wn)
-          }}
-          style={{
-            margin: "0 5px",
-            fontWeight: selectedType === "workoutName" && selectedKey === wn
-            ? "bold" : "normal",
-          }}
-          >
-            {wn}
+          ALL
           </button>
-        ))}
+        </div>
+        {/* bodyPart */}
+        <div className="switching-btn--bp">
+          <h4>By Body Part/ </h4>
+            {bodyPartKeys.map((bp) => (
+              <button
+                key={bp}
+                onClick={() => {
+                  setSelectedType("bodyPart");
+                  setSelectedKey(bp)
+                }}
+                className={selectedType === "bodyPart" && selectedKey === bp 
+                  ? "btn-light selected-btn" : "btn-light"}>
+                {bp}
+              </button>
+            ))}
+          
+        </div>
+        {/* workoutName */}
+        <div className="switching-btn--wn">
+          <h4>By Workout Name/ </h4>
+          <div style={{ marginBottom: "1rem" }}>
+            {workoutNameKeys.map((wn) => (
+              <button
+                key={wn}
+                onClick={() => {
+                  setSelectedType("workoutName");
+                  setSelectedKey(wn)
+                }}
+                style={{
+                  margin: "0 5px",
+                  fontWeight: selectedType === "workoutName" && selectedKey === wn
+                  ? "bold" : "normal",
+                }}>
+                {wn}
+              </button>
+            ))}
+          </div>
+          </div>
       </div>
 
       <ResponsiveContainer width="100%" height="100%">
