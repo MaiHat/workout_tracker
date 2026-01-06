@@ -30,7 +30,7 @@ export default function CreateWorkoutNamePopup({
       <div className='popup--wrapper'>
         <div className='popup--card'>
           <div className='popup--header'>
-            <div className='for-spacebetween'></div>
+            <div className='empty-for-spacebetween'></div>
             <h4 className='popup--header--title'>Create Workout</h4>
             <button className="close-btn" type="button"
               onClick={() => setCreatePopup(false)}>
@@ -59,7 +59,9 @@ export default function CreateWorkoutNamePopup({
                 required
               />
             </div>
+            <div className='submit-btn'>
             <button className='btn btn--secondary' type="submit">Save</button>
+            </div>
             </form>
           </div>
         </div>

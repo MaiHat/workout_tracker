@@ -188,21 +188,20 @@ export default function WorkoutDetailsPopup({
                         value={set.note}
                         onChange={(e) => handleChange(index, e)}
                       />
-                      <button type="button" onClick={addSet}>+ Add Set</button>
+                      <button className="btn--light" type="button" onClick={addSet}>+ Add Set</button>
                     </div>
                   </div>
                 ))}
-
-               
-
-                {isEditing
-                  ? <button className='submit-btn' type="submit">Update</button>
-                  : <button className='submit-btn' type="submit">Save</button>}
+                  <div className="submit-btn">
+                  {isEditing
+                    ? <button className='btn--primary' type="submit">Update</button>
+                    : <button className='btn btn--secondary' type="submit">Save</button>}
+                  </div>
               </form>
             </div>
-            </div>
           </div>
-        </div>) : null}
+        </div>
+      </div>) : null}
       
     </>
   )

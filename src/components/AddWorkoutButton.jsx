@@ -8,10 +8,10 @@ export default function AddWorkoutButton({ onAddPopup}) {
     onAddPopup();
   } 
   return (
-    <div>
-    <button className='btn btn--primary' onClick={handleClick}>
-      {selectedDate ? `Add Workout for ${selectedDate.toLocaleDateString()}` : 'Add Workout for Today'}
-    </button>
+    <div className='submit-btn'>
+      <button className='btn--primary big-btn' onClick={handleClick}>
+        {selectedDate ? `Add Workout for ${selectedDate.toLocaleDateString()}` : 'Add Workout for Today'}
+      </button>
     </div>
   )
 }

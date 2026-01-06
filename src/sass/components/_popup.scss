@@ -80,6 +80,7 @@
     
   &--body {
     display: flex;
+    justify-content: center;
     margin-bottom: 1rem;
 
     .section {
@@ -122,11 +123,9 @@
         }
       }
     border-bottom: 1px solid #ddd;
+    margin-bottom: 1rem;
     }
 
-    .submit-btn {
-      display: flex;
-      justify-content: center;
-    }
   }
 }
+ 

@@ -48,7 +48,9 @@ export default function AddWorkoutPopup({
             </div>
           ))}
         </div>
+        <div className='submit-btn'>
         <button className='btn btn--primary' onClick={() => setCreatePopup(true)}>Create Work out</button>
+      </div>
       </div>
       </div>
     </div>
