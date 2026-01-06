@@ -137,56 +137,63 @@ export default function WorkoutDetailsPopup({
                   <div className='workoutname'> 
                     <h4>{selectedWorkout.id}: </h4><h3>{selectedWorkout.workoutName}</h3>
                   </div>
-                )}
-                {/* 過去データ */}
-                {latestData ? (
-                  <>
-                    <p className='last-record'>Last Record: {latestData.date.toLocaleDateString()}</p>
-                    {latestData.sets.map((set, i) => (
-                      <p key={i}>Set {i+1}: {set.weight} kg × {set.reps} reps</p>
-                    ))}
-                  </>
-                  ) : (
-                  <p className='last-record'>No prev record</p>
-                )}
+              
+                )} 
               </div>
-           
-            <div className="popup--body">
+              {/* 過去データ */}
+              {latestData ? (
+              <div className='prev-record'>
+                <div className='prev-record--title'><p>Prev Record: {latestData.date.toLocaleDateString()}</p></div>
+                  <div className='sets'>
+                    {latestData.sets.map((set, i) => (
+                      <p className='set' key={i}>Set {i+1}:  {set.weight} kg × {set.reps} reps</p>
+                    ))}
+                  </div>
+                </div>
+              ) : (
+              <div>
+                <p className='prev-record'>No prev record</p>
+              </div>
+            )}
              
-              {/* 入力フォーム */}
+           <div className="popup--body">
+             {/* 入力フォーム */}
               <form onSubmit={handleSubmit}>
                 {formData.map((set, index) => (
                   <div className="set-input" key={index}>
-                   <div>
-                    <label>Set {index + 1}</label>
-                    <input
-                      type="number"
-                      name="weight"
-                      placeholder="Weight"
-                      value={set.weight}
-                      onChange={(e) => handleChange(index, e)}
-                    /> kg 
-
-                    <input
-                      type="number"
-                      name="reps"
-                      placeholder="Reps"
-                      value={set.reps}
-                      onChange={(e) => handleChange(index, e)}
-                    /> Reps
-                    RM: {calculateRM(set.weight, set.reps)}
-                  </div>
-
-                    <textarea
-                      name="note"
-                      placeholder="Note"
-                      value={set.note}
-                      onChange={(e) => handleChange(index, e)}
-                    />
+                    <div className="set-input--top">
+                      <h4>Set {index + 1}</h4>
+                      <input
+                        type="number"
+                        name="weight"
+                        placeholder="Weight"
+                        value={set.weight}
+                        onChange={(e) => handleChange(index, e)}
+                      /> 
+                      <h4>kg</h4>
+                      <input
+                        type="number"
+                        name="reps"
+                        placeholder="Reps"
+                        value={set.reps}
+                        onChange={(e) => handleChange(index, e)}
+                      /> 
+                      <h4>Reps</h4>
+                      <h4>RM: {calculateRM(set.weight, set.reps)}</h4>
+                    </div>
+                    <div className="set-input--bottom">
+                      <textarea
+                        name="note"
+                        placeholder="Note"
+                        value={set.note}
+                        onChange={(e) => handleChange(index, e)}
+                      />
+                      <button type="button" onClick={addSet}>+ Add Set</button>
+                    </div>
                   </div>
                 ))}
 
-                <button type="button" onClick={addSet}>+ Add Set</button>
+               
 
                 {isEditing
                   ? <button className='submit-btn' type="submit">Update</button>

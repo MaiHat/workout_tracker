@@ -27,6 +27,11 @@
   border: 1px solid $light-gray;
 }
 
+.btn--light {
+  background-color: $btn-white;
+  color: $dark-gray;
+  padding: 0 0.1rem;
+}
 /* Hover */
 .btn:hover {
   opacity: 0.85;
