@@ -37,13 +37,13 @@ export const LineGraph = () => {
         <h1>Your improvement of (selectedMonth)</h1>
       </div>
       {/* ALL */}
-      <div className="switching-btn">
+      <div className="switching-btn--wrapper">
        <div className='switching-btn--all'>
           <button onClick={() => {
               setSelectedType("all"); 
               setSelectedKey("");
             }}
-            className={selectedType === "all" ? "selected-btn btn--light" : "btn--light"}
+            className={selectedType === "all" ? "btn--primary" : "btn--light"}
             >
           ALL
           </button>
@@ -51,6 +51,7 @@ export const LineGraph = () => {
         {/* bodyPart */}
         <div className="switching-btn--bp">
           <h4>By Body Part/ </h4>
+          <div></div>
             {bodyPartKeys.map((bp) => (
               <button
                 key={bp}
@@ -59,7 +60,7 @@ export const LineGraph = () => {
                   setSelectedKey(bp)
                 }}
                 className={selectedType === "bodyPart" && selectedKey === bp 
-                  ? "btn-light selected-btn" : "btn-light"}>
+                  ? "btn--primary" : "btn--light"}>
                 {bp}
               </button>
             ))}
@@ -68,7 +69,6 @@ export const LineGraph = () => {
         {/* workoutName */}
         <div className="switching-btn--wn">
           <h4>By Workout Name/ </h4>
-          <div style={{ marginBottom: "1rem" }}>
             {workoutNameKeys.map((wn) => (
               <button
                 key={wn}
@@ -76,22 +76,19 @@ export const LineGraph = () => {
                   setSelectedType("workoutName");
                   setSelectedKey(wn)
                 }}
-                style={{
-                  margin: "0 5px",
-                  fontWeight: selectedType === "workoutName" && selectedKey === wn
-                  ? "bold" : "normal",
-                }}>
+                className={selectedType === "workoutName" && selectedKey === wn
+                  ? "btn--primary" : "btn--light"
+                }>
                 {wn}
               </button>
             ))}
           </div>
-          </div>
       </div>
 
-      <ResponsiveContainer width="100%" height="100%">
+      <ResponsiveContainer>
         <LineChart data={chartData}>
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" tick={{ fontSize: 12 }} />
+          <XAxis dataKey="date" tick={{ fontSize: 17 }} />
           <YAxis />
           <Tooltip />
           <Legend />

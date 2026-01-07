@@ -1,11 +1,9 @@
 .btn {
   display: inline-block;
   font-size: $font-body;
-  font-weight: 600;
   text-align: center;
   cursor: pointer;
   border: none;
-  transition: 0.2s ease;
   border-radius: 3px;
 }
 
@@ -20,6 +18,14 @@
   border-radius: 3px;
   padding: 1rem 2rem;
 }
+
+.small-btn {
+    font-size: $font-body;
+    padding: 0 1rem;
+    text-align: center;
+    cursor: pointer;
+   
+  }
 
  .submit-btn {
       display: flex;
@@ -53,8 +59,8 @@
 .btn--light {
   background-color: $btn-white;
   color: $dark-gray;
-  padding: 0 0.1rem;
-  transition: 0.2s ease;
+  border: 1px solid $light-gray;
+
   :hover {
     opacity: 0.85;
   }
@@ -63,4 +69,35 @@
 /* Hover */
 .btn:hover {
   opacity: 0.85;
+}
+
+/* for Linegraph */
+.switching-btn--wrapper {
+   
+    
+.switching-btn--all {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 1rem;
+  }
+  .switching-btn--bp {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+  }  
+
+  .switching-btn--wn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+  }
+  .selected-btn {
+    
+  }
+  button {
+    margin: 0 0.5rem;
+  }
 }

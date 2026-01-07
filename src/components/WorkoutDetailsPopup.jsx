@@ -20,6 +20,7 @@ export default function WorkoutDetailsPopup({
   const [maxWeight, setMaxWeight] = useState(0);
   const [maxRm, setMaxRm] = useState(0);
   const { fetchPrevWorkout, latestData } = useWorkouts();
+  
 
   function handleChange(index, e) {
     const { name, value } = e.target;

@@ -147,23 +147,23 @@ export default function Profile() {
 
   return (
     <div className="profile"> 
-    <Header />
-    <MonthlyArchivedDays
-      onHandleClickTodays={handleClickTodays} />
-    <div className='main'>
-      <Calendar
-        onClickDate={handleClickDate}
-        onChangeMonth={handleChangeMonth} />
+      <Header />
+      <MonthlyArchivedDays
+        onHandleClickTodays={handleClickTodays} />
+      <div className='main'>
+        <Calendar
+          onClickDate={handleClickDate}
+          onChangeMonth={handleChangeMonth} />
 
-      <WorkoutList  
-        selectedDate={selectedDate}
-        setDetailsPopup={setDetailsPopup}
-        isLoaing={isLoading}
-        onEdit={handleEditWorkout} 
-        onDelete={handleDelete}
-        displayedWorkouts={displayedWorkouts}
-        fetchWorkoutData={fetchWorkoutData} />
-    </div>
+        <WorkoutList  
+          selectedDate={selectedDate}
+          setDetailsPopup={setDetailsPopup}
+          isLoaing={isLoading}
+          onEdit={handleEditWorkout} 
+          onDelete={handleDelete}
+          displayedWorkouts={displayedWorkouts}
+          fetchWorkoutData={fetchWorkoutData} />
+      </div>
       <AddWorkoutButton
          onAddPopup={handleClickAddWorkout}
          selectedDate={selectedDate} />
