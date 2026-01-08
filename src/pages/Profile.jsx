@@ -107,7 +107,7 @@ export default function Profile() {
     fetchWorkoutData(selectedDate);
     getMonthlyWorkoutStats();
     getMaxDataOfTheDay(selectedDate);
-    isEditing(false);
+    setIsEditing(false);
     console.log("done!");
   }
  }
@@ -115,8 +115,8 @@ export default function Profile() {
  async function handleDelete(workoutId) {
   const result = deleteWorkout(workoutId);
   if (result.success) {
-    setDetailsPopup(false);    
-    console.log("done delete")
+    setDetailsPopup(false);
+    console.log("done delete");
   }
  }
  

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useAuth } from "../contexts/authContext";
 import { useWorkouts } from "../contexts/workoutsContext";
-
+import { Alert } from "react-bootstrap";
 
 export default function WorkoutDetailsPopup({
   detailsPopup,
@@ -19,6 +19,7 @@ export default function WorkoutDetailsPopup({
   const { currentUser, username } = useAuth();
   const [maxWeight, setMaxWeight] = useState(0);
   const [maxRm, setMaxRm] = useState(0);
+  const [errors, setErrors] = useState([]);
   const { fetchPrevWorkout, latestData } = useWorkouts();
   
 
@@ -59,16 +60,41 @@ export default function WorkoutDetailsPopup({
     return { maxWeight: mw, maxRm: mr };
   }
 
+   function validateSets(sets) {
+    const newErrors = sets.map((set) => {
+      const errs = {};
+      if (!set.weight) errs.weight = "Weight is required";
+      if(!set.reps) errs.reps = "Reps is required";
+      return errs;
+    });
+    setErrors(newErrors);
+
+    // 1つでもエラーがあればfalse 
+    return newErrors.every(err => Object.keys(err).length === 0);
+     //everyは配列のすべての要素が条件を満たしているか を調べるメソッド。
+  }
+
+   function removeSet(index) {
+    setFormData(prev => prev.filter((_,i) => i !== index));
+    setErrors(prev => prev.filter((_,i) => i !== index));
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    if (!validateSets(formData)) {
+      return;
+    }
+
     const setsWithRM = formData.map(set => ({
       weight: parseFloat(set.weight),
       reps: parseFloat(set.reps),
       RM: calculateRM(set.weight, set.reps),
       note: set.note ?? "",
     }));
+
     const { maxWeight: mw, maxRm: mr } = calcMaxFromSets(setsWithRM);
+    
     setMaxWeight(mw);
     setMaxRm(mr);
     onSubmit(setsWithRM, isEditing, mw, mr);
@@ -170,7 +196,7 @@ export default function WorkoutDetailsPopup({
                         placeholder="Weight"
                         value={set.weight}
                         onChange={(e) => handleChange(index, e)}
-                      /> 
+                      />
                       <h4>kg</h4>
                       <input
                         type="number"
@@ -182,6 +208,12 @@ export default function WorkoutDetailsPopup({
                       <h4>Reps</h4>
                       <h4>RM: {calculateRM(set.weight, set.reps)}</h4>
                     </div>
+                     {errors[index]?.weight && (
+                        <Alert className="err-msg" variant="danger">{errors[index].weight}</Alert>
+                      )}
+                      {errors[index]?.reps && (
+                        <Alert className="err-msg" variant="danger">{errors[index].reps}</Alert>            
+                      )}
                     <div className="set-input--bottom">
                       <textarea
                         name="note"
@@ -189,13 +221,18 @@ export default function WorkoutDetailsPopup({
                         value={set.note}
                         onChange={(e) => handleChange(index, e)}
                       />
-                      <button className="btn--light" type="button" onClick={addSet}>+ Add Set</button>
+
+                      {formData.length > 1 && (
+                        <button type="button" className="btn--light btn" onClick={() => removeSet(index)}>-</button>
+                      )}
+
+                      <button className="btn--light btn" type="button" onClick={addSet}>+ Add Set</button>
                     </div>
                   </div>
                 ))}
                   <div className="submit-btn">
                   {isEditing
-                    ? <button className='btn--primary' type="submit">Update</button>
+                    ? <button className='btn btn--secondary' type="submit">Update</button>
                     : <button className='btn btn--secondary' type="submit">Save</button>}
                   </div>
               </form>

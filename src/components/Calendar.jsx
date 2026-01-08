@@ -6,10 +6,8 @@ export default function Calendar({ onClickDate, onChangeMonth}) {
 
   const { monthlyArchivedDays, currentMonth,
     currentYear, setCurrentMonth, setCurrentYear, 
-    selectedDate, setSelectedDate} = useWorkouts();
+    selectedDate, monthsOfYear} = useWorkouts();
   const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const monthsOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", 
-    "Aug", "Sep", "Oct", "Nov", "Dec" ];
   const today = new Date();
   const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();//ex30
   const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();//0=Sunday, 1=Monday...

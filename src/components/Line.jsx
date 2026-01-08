@@ -12,7 +12,7 @@ import {
 import { useWorkouts } from "../contexts/workoutsContext";
 
 export const LineGraph = () => {
-  const { monthlyStats, selectedDate } = useWorkouts();
+  const { monthlyStats, currentMonth, monthsOfYear, currentYear } = useWorkouts();
 
   const [selectedType, setSelectedType] = useState("all"); 
   const [selectedKey, setSelectedKey] = useState("");
@@ -34,7 +34,7 @@ export const LineGraph = () => {
   return (
     <div className="line-graph">
       <div className="line-graph--header">
-        <h1>Your improvement of (selectedMonth)</h1>
+        <h1>Improvement of {monthsOfYear[currentMonth]} {currentYear}</h1>
       </div>
       {/* ALL */}
       <div className="switching-btn--wrapper">

@@ -27,7 +27,8 @@ function WorkoutsContextProvider({ children }) {
   const [displayedWorkouts, setDisplayedWorkouts] = useState([]);
   const [selectedDate, setSelectedDate] = useState(today);
   const [latestData, setLatestData] = useState(null);
-  
+  const monthsOfYear = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", 
+    "Aug", "Sep", "Oct", "Nov", "Dec" ];
  
   async function fetchBodyParts() {
     const snapshot = await getDocs(collection(db, "users", currentUser.uid, "bodyParts")); 
@@ -310,8 +311,22 @@ function WorkoutsContextProvider({ children }) {
     mr, 
     selectedWorkout, 
     selectedDate, 
-    editingWorkoutId
+    editingWorkout
   }) {
+    //編集してる場合
+      if (isEditing) {
+        console.log(editingWorkout);
+        await updateDoc(
+          doc(db, "users", currentUser.uid, "workouts", editingWorkout.id),
+          {
+            sets: setsWithRM,
+            maxWeight: mw,
+            maxRm: mr,
+          }
+        );
+        return { success: true };
+      }
+
     try {
       const workoutDate = selectedDate || new Date();
       const workoutName = selectedWorkout.workoutName;
@@ -325,21 +340,7 @@ function WorkoutsContextProvider({ children }) {
       const workoutRef = collection(db, "users", currentUser.uid, "workouts");
     
 
-      //編集してる場合
-      if (isEditing) {
-        await updateDoc(
-          doc(db, "users", currentUser.uid, "workouts", editingWorkoutId),
-          {
-            sets: setsWithRM,
-            date: Timestamp.fromDate(workoutDate),
-            bodyPart: bodyPart,
-            workoutName: workoutName,
-            maxWeight: mw,
-            maxRm: mr,
-          }
-        );
-        return { success: true };
-      }
+      
      
       //同じ日に同じ種目のデータがあるか確認
       const q = query(
@@ -475,6 +476,7 @@ function WorkoutsContextProvider({ children }) {
     deleteWorkout,
     latestData,
     addWorkoutName,
+    monthsOfYear
   };
   return (
     <WorkoutsContext.Provider value={workoutsValue}>
