@@ -8,7 +8,7 @@ import { AuthProvider } from "./contexts/authContext";
 import { WorkoutsContextProvider } from "./contexts/workoutsContext";
 import PrivateRoute from "./components/PrivateRoute";
 import ForgotPassword from "./pages/ForgotPassword";
-import UpdateProfile from "./pages/UpdateProfile";
+import AccountProfile from "./pages/AccountProfile";
 
 
 //import "bootstrap/dist/css/bootstrap.min.css";
@@ -26,7 +26,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/update-profile" element={<UpdateProfile />} />
+              <Route path="/update-profile" element={<AccountProfile />} />
             </Routes>
           </WorkoutsContextProvider>
       </AuthProvider>

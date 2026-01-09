@@ -21,13 +21,13 @@ function LandingPage() {
             <h1 className="rotated-text--1">Level</h1>
             <h1 className="rotated-text--2">Up</h1>
           </div>
-          <div className="bottom-text">
-            <p>start your fitness game.</p>
-          <div className="arrows">
-            <i className='bx bx-caret-up'></i>
-            <i className='bx bx-caret-up'></i>
-            <i className='bx bx-caret-up'></i>
-          </div>
+          <div className="bottom">
+            <div className="bottom--text">start your fitness game.</div>
+            <div className="arrows">
+              <i className='bx bx-caret-up'></i>
+              <i className='bx bx-caret-up'></i>
+              <i className='bx bx-caret-up'></i>
+            </div>
           </div>
         </div> 
       </div>
