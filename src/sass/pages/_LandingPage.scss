@@ -3,16 +3,21 @@
     height: 100vh;
 }
 
- .left-side {
+.left-side {
     background-image: url(../assets/training_1.jpg);
     background-size: cover;
     height: 100vh;
     width: 50%;
     float: left;
     position: relative;
+    
+    @include respond(phone) {
+        float: none;
+        width: 100%;
     }
+}
 
-  .btn--box {
+.btn--box {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -29,47 +34,59 @@
         border: 2px solid $light-gray;
         }
     }
-    
-    .right-side {
-        background-color: $neon;
-        position: relative;
-        float: right;
-        height: 100vh;
-        width: 50%;
+
+.right-side {
+    background-color: $neon;
+    position: relative;
+    float: right;
+    height: 100vh;
+    width: 50%;
+    @include respond(phone) {
+        float: none;
+        width: 100%;
+    }
+   
+    .rotated-text {
+        position: absolute;
+        top:25%;
+        transform: translate(-50%, -50%) rotate(-90deg);
+        letter-spacing: 0.5rem;
+
         
-        /*.rotated-text {
-            rotate: -90deg;
-            }*/
-        .rotated-text {
+          
+        @include respond(phone) {
             position: absolute;
             top: 25%;
-            left: 25%;
+            left: 75%;
             transform: translate(-50%, -50%) rotate(-90deg);
-            
-           h1{
+        }
+
+        h1{
             line-height: 20rem;
             font-size: 20rem; 
             text-transform: uppercase;
             }
-        }
-    }    
-
+    }
+}
 
 .bottom-text {
-    
-    position: absolute;
-    top: 50%;
     .arrows {
+        position: absolute;
+        top: 55%;
+        left: 65%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        
     }
+
     p {
+        position: absolute;
+        top: 50%;
+        left: 5%;
         font-size: 3rem;
         font-family: $font-secondary;
         margin-right: 2rem;
-        }
+    }
     i {
         font-size: 12rem;
         color: $white;

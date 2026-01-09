@@ -1,26 +1,19 @@
-
-
-
-/* Shadow Effect 
-.calendar-app::after {
-    content: "";
-    position: absolute;
-    bottom: -12rem;
-    left: 50%;
-    transform: translate(-50%) rotateX(50deg);
-    width: 90%;
-    height: 16rem;
-    background-color: rgba(0, 0, 0, 0.5);
-    border-radius: 20rem;
-    filter:blur(4rem);
-}*/
-
 .calendar {
     width: 40%;
     border-radius: 0.6rem;
     border: 0.3rem solid $black;
     padding: 3rem;
     background-color: $soft-white;
+
+    @include respond(phone) {
+     width:100%;
+     margin-bottom: 5rem;
+    }
+
+    @include respond(tab-port) {
+     padding: 1.5rem;
+    }
+
     
     .navigate-date {
         display: flex;
@@ -32,8 +25,11 @@
         h2 {
         letter-spacing: 0.3rem;
         }
+        
     }
 }
+
+
 
 .buttons i {
     width: 3.5rem;

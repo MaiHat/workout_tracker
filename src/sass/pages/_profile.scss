@@ -9,4 +9,8 @@
     display: flex;
     padding: 3rem;
     column-gap: 5rem;
+
+    @include respond(phone) {
+   display: inline-block;
+  }
 }
