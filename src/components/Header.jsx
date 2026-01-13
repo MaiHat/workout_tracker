@@ -13,7 +13,7 @@ export default function Header() {
           <Logo />
         </div>
         <div className="header--right">
-          <Link to="/update-profile" >Update Profile</Link>
+          <Link to="/account-profile" >Account</Link>
           <Logout />
          </div>
       </div>

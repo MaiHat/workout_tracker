@@ -26,7 +26,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
-              <Route path="/update-profile" element={<AccountProfile />} />
+              <Route path="/account-profile" element={<AccountProfile />} />
             </Routes>
           </WorkoutsContextProvider>
       </AuthProvider>
