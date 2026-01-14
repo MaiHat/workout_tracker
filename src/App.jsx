@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import LandingPage from "./LandingPage";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -17,7 +17,7 @@ import AccountProfile from "./pages/AccountProfile";
 function App() {
   return (
     <>
-    <BrowserRouter>
+    <HashRouter>
      <AuthProvider>
           <WorkoutsContextProvider>
             <Routes>
@@ -30,7 +30,7 @@ function App() {
             </Routes>
           </WorkoutsContextProvider>
       </AuthProvider>
-    </BrowserRouter>
+    </HashRouter>
     </>
   );
 }
