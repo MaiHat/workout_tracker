@@ -3,8 +3,8 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "/workout_tracker/",
   plugins: [react()],
+  base: "/workout_tracker/",
   test: {
     globals: true,
     environment: 'jsdom', // ←ブラウザ環境を再現
