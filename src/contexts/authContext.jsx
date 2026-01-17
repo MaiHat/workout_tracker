@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from "react";
 import { auth } from "../firebase/firebase";
-import { initUserData } from "../firebase/initUserData";
+import { createInitUserData } from "../firebase/initUserData";
 import { onAuthStateChanged, 
         createUserWithEmailAndPassword, 
         signInWithEmailAndPassword, 
@@ -11,6 +11,7 @@ import { onAuthStateChanged,
         updatePassword,
         deleteUser
      } from "firebase/auth";
+//import { setDoc } from "firebase/firestore";
 
 const AuthContext = React.createContext();
 
@@ -25,14 +26,13 @@ function AuthProvider({ children }) {
     const [showProfile, setShowProfile] = useState(true);
     const user = auth.currentUser;
 
-    async function signup(email, password) {
-        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    async function signup(email, password, userName) {
+        const userCredential = 
+            await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user; //user情報をuserの中に入れている
 
-        // ★ ユーザー作成直後に初期セットアップ
-        await initUserData(user.uid);
+        await createInitUserData(user.uid, userName, user.email);
         return user;
-        console.log(user);
         }
 
     function login(email, password) {

@@ -1,7 +1,13 @@
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, serverTimestamp } from "firebase/firestore";
 import { db } from "./firebase";
 
-export async function initUserData(uid) {
+export async function createInitUserData(uid, userName, email) {
+
+  await setDoc(doc(db, "users", uid), {
+    name: userName,
+    email: email,
+    createdAt: serverTimestamp(),
+  });
 
   const defaultBodyParts = [
     { id: "Chest", workoutNames: ["Chest Press", "Bench Press"] },
@@ -15,5 +21,5 @@ export async function initUserData(uid) {
       { workoutNames: part.workoutNames }
     );
   }
-  console.log("Initial data created");
+  console.log("init user data created");
 }

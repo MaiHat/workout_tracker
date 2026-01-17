@@ -8,7 +8,7 @@ export default function Signup() {
     const emailRef = useRef();
     const passwordRef = useRef();
     const passwordConfirmRef = useRef();
-    const { signup, getUserName } = useAuth();
+    const { signup } = useAuth();
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate(); 
@@ -27,8 +27,8 @@ export default function Signup() {
         try { 
             setErrorMessage("");
             setLoading(true);        
-            await signup(enteredEmail, enteredPassword);
-            await getUserName(enteredName);
+            console.log("before signup");
+            await signup(enteredEmail, enteredPassword, enteredName);
             console.log("User signed up successfully!");
             navigate("/profile");
         } catch (err) {
@@ -79,7 +79,7 @@ export default function Signup() {
                     <button disabled={loading} className="btn btn--primary" type="submit">Sign Up</button>
                 </form>
                 <div className="form--link">
-                <Link to="/Login">Already have an account?</Link>
+                <Link to="/login">Already have an account?</Link>
                 </div>
             </div>
         </div>
