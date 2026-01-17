@@ -2,6 +2,7 @@ import React, { useState, useRef } from 'react'
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 import Logo from "../components/Logo";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 export default function Signup() {
     const userNameRef = useRef();
@@ -12,6 +13,7 @@ export default function Signup() {
     const [errorMessage, setErrorMessage] = useState("");
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate(); 
+    const [showPassword, setShowPassword] = useState(false);
   
     async function handleSignUp(event) {
         event.preventDefault();
@@ -54,26 +56,42 @@ export default function Signup() {
                     </div>
                     <div> 
                         <label>Email</label>
-                        <input id="email" 
+                        <input 
+                        id="email" 
                         type="email" 
                         ref={emailRef} 
                         required />
                     </div>
                     <div> 
                         <label>Password</label>
-                        <input 
-                        id="password" 
-                        type="password" 
-                        ref={passwordRef} 
-                        required />
+                        <div className="password-field">
+                            <input 
+                            id="password" 
+                            type={showPassword ? "text" : "password"}
+                            ref={passwordRef} 
+                            required
+                            autoComplete="new-password" />
+                            <span 
+                            className="password-toggle"
+                            onClick={() => setShowPassword(prev => !prev)}>
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}</span>
+                        </div>
                     </div>
                     <div>   
                         <label>Password Confirmation</label>
-                        <input 
-                        id="password-confirm" 
-                        type="password" 
-                        ref={passwordConfirmRef} 
-                        required />
+                        <div className="password-field">
+                            <input 
+                            id="password-confirm" 
+                            type={ showPassword ? "text" : "password"}
+                            ref={passwordConfirmRef} 
+                            required
+                            autoComplete="new-password" />
+                            <span className="password-toggle"
+                            onClick={() => setShowPassword(prev => !prev)}>
+                                {showPassword ? <FaEyeSlash /> : <FaEye />}</span>
+                        </div>
+                    </div>
+                    <div>
                     </div>
                     {errorMessage && <div className="alert error">{errorMessage}</div>}
                     <button disabled={loading} className="btn btn--primary" type="submit">Sign Up</button>

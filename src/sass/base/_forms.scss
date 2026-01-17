@@ -77,5 +77,32 @@
     margin-right: 1rem;
   }
   }
+
+  .password-field {
+  position: relative; /* 子要素を絶対配置できるようにする */
+  display: inline-block;
+  width: 100%;
 }
+
+.password-field input {
+  width: 100%;
+  padding-right: 40px; /* アイコン分のスペース */
+  box-sizing: border-box;
+}
+
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 10px; /* 右端の位置 */
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #666;
+  font-size: 18px;
+}
+
+.password-toggle:hover {
+  color: #000;
+}
+}
+
 

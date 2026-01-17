@@ -3,6 +3,7 @@ import React, { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/authContext";
 import Logo from "../components/Logo";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function Login() {
   const emailRef = useRef();
@@ -12,6 +13,7 @@ function Login() {
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+  const [showPassword, setShowPassword] = useState(false);
   
   async function handleLogin(event) {
     event.preventDefault();
@@ -53,7 +55,17 @@ function Login() {
             </div>
             <div>
               <label>Password</label>
-              <input id="password" type="password" ref={passwordRef} required />
+              <div className="password-field">
+                <input 
+                id="password" 
+                type={showPassword ? "text" : "password" }
+                ref={passwordRef} 
+                required 
+                autoComplete="current-password"
+                />
+                <span className="password-toggle"
+                onClick={() => setShowPassword(prev => !prev)}>{showPassword ? <FaEyeSlash /> : <FaEye/>}</span>
+              </div>
             </div>
             {errorMessage && <div className="alert error">{errorMessage}</div>}
             <button disabled={loading} className="btn btn--primary" type="submit">LOG IN</button>
