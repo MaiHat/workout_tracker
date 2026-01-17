@@ -51,7 +51,7 @@ export const LineGraph = () => {
         {/* bodyPart */}
         <div className="switching-btn--bp">
           <h4>By Body Part/ </h4>
-          <div></div>
+          <div>
             {bodyPartKeys.map((bp) => (
               <button
                 key={bp}
@@ -64,7 +64,7 @@ export const LineGraph = () => {
                 {bp}
               </button>
             ))}
-          
+          </div>
         </div>
         {/* workoutName */}
         <div className="switching-btn--wn">
@@ -82,34 +82,38 @@ export const LineGraph = () => {
                 {wn}
               </button>
             ))}
-          </div>
+        </div>
       </div>
 
-      <ResponsiveContainer>
-        <LineChart data={chartData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="date" tick={{ fontSize: 17 }} />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Line
-            type="monotone"
-            dataKey="maxRM"
-            stroke="#8884d8"
-            strokeWidth={2}
-            dot={{ r: 3 }}
-            name="Max RM"
-          />
-          <Line
-            type="monotone"
-            dataKey="maxWeight"
-            stroke="#82ca9d"
-            strokeWidth={2}
-            dot={{ r: 3 }}
-            name="Max Weight (kg)"
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <div className="line-graph--scroll">
+        <div className="line-graph--inner" style={{ width: chartData.length * 60 }}>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={chartData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="date" tick={{ fontSize: 17 }} />
+              <YAxis />
+              <Tooltip />
+              <Legend />
+              <Line
+                type="monotone"
+                dataKey="maxRM"
+                stroke="#8884d8"
+                strokeWidth={2}
+                dot={{ r: 3 }}
+                name="Max RM"
+              />
+              <Line
+                type="monotone"
+                dataKey="maxWeight"
+                stroke="#82ca9d"
+                strokeWidth={2}
+                dot={{ r: 3 }}
+                name="Max Weight (kg)"
+              />
+            </LineChart>
+          </ResponsiveContainer>
+        </div>
+      </div>
     </div>
   );
 };

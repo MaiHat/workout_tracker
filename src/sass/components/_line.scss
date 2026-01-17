@@ -3,13 +3,23 @@
   height: 50rem;
   text-align: center;
   margin: 5rem 0;
+
   &--header {
     letter-spacing: 0.2rem;
     font-size: $font-h1;
-    
-     @include respond(phone) {
-          font-size: $font-h2;
-          margin: 0 auto;
-        }
+
+    @include respond(phone) {
+      font-size: $font-h2;
+      margin: 0 auto;
+    }
+  }
+  
+  &--scroll {
+    overflow-x: auto;
+  }
+
+  &--inner {
+    min-width: 100%;
   }
 }
+
