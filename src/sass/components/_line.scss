@@ -6,8 +6,10 @@
   &--header {
     letter-spacing: 0.2rem;
     font-size: $font-h1;
+    
      @include respond(phone) {
           font-size: $font-h2;
+          margin: 0 auto;
         }
   }
 }
