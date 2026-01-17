@@ -22,7 +22,6 @@ export default function WorkoutDetailsPopup({
   const [errors, setErrors] = useState([]);
   const { fetchPrevWorkout, latestData } = useWorkouts();
   
-
   function handleChange(index, e) {
     const { name, value } = e.target;
     const updatedSets = [...formData];
