@@ -34,7 +34,7 @@ export const LineGraph = () => {
   return (
     <div className="line-graph">
       <div className="line-graph--header">
-        <h1>Improvement of {monthsOfYear[currentMonth]} {currentYear}</h1>
+        Improvement of {monthsOfYear[currentMonth]} {currentYear}
       </div>
       {/* ALL */}
       <div className="switching-btn--wrapper">
