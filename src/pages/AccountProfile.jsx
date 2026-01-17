@@ -58,7 +58,12 @@ export default function AccountProfile() {
                     <div className='change-links'>
                         <Link className='btn--secondary'>Change Email address</Link>
                         <Link to="/forgot-password" className='btn--secondary'>Change Password</Link>
+
+                       
                     </div>
+                    <div>
+                        <h2>Sorry</h2>
+                        <h3>Still workoing on this page</h3></div>
                     <div className="form--link btn--secondaryxs">
                         <Link to="/profile">Back</Link>
                     </div>
