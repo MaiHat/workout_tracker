@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useAuth } from "../contexts/authContext";
 import { useWorkouts } from "../contexts/workoutsContext";
 import { Alert } from "react-bootstrap";
+import WeightUnitSwich from './WeightUnitSwich';
+import WeightInput from "./WeightInput";
 
 export default function WorkoutDetailsPopup({
   detailsPopup,
@@ -15,12 +17,13 @@ export default function WorkoutDetailsPopup({
   editingWorkout,
   }) {  
     
-  const [formData, setFormData] = useState([ { weight: "", reps:"", note: ""}]);
+  const [formData, setFormData] = useState([ { weight: { kg: "", lbs: "" }, reps:"", note: ""}]);
   const { currentUser, username } = useAuth();
   const [maxWeight, setMaxWeight] = useState(0);
   const [maxRm, setMaxRm] = useState(0);
   const [errors, setErrors] = useState([]);
   const { fetchPrevWorkout, latestData } = useWorkouts();
+  const [weightUnit, setWeightUnit] = useState("kg");
   
   function handleChange(index, e) {
     const { name, value } = e.target;
@@ -185,18 +188,21 @@ export default function WorkoutDetailsPopup({
            <div className="popup--body">
              {/* 入力フォーム */}
               <form onSubmit={handleSubmit}>
+                <WeightUnitSwich 
+                unit={weightUnit}
+                setUnit={setWeightUnit}
+                />
                 {formData.map((set, index) => (
                   <div className="set-input" key={index}>
                     <div className="set-input--top">
                       <h4>Set {index + 1}</h4>
-                      <input
-                        type="number"
-                        name="weight"
-                        placeholder="Weight"
-                        value={set.weight}
-                        onChange={(e) => handleChange(index, e)}
+                      <WeightInput
+                      key={index}
+                      index={index}
+                      weightUnit={weightUnit}
+                      setFormData={setFormData}
+                      formData={formData}
                       />
-                      <h4>kg</h4>
                       <input
                         type="number"
                         name="reps"
