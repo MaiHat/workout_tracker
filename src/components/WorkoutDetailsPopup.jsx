@@ -19,7 +19,7 @@ export default function WorkoutDetailsPopup({
     
   const [formData, setFormData] = useState([ { weight: { kg: "", lbs: "" }, reps:"", note: ""}]);
   const { currentUser, username } = useAuth();
-  const [maxWeight, setMaxWeight] = useState(0);
+  const [maxWeight, setMaxWeight] = useState({kg: 0, lbs: 0});
   const [maxRm, setMaxRm] = useState(0);
   const [errors, setErrors] = useState([]);
   const { fetchPrevWorkout, latestData } = useWorkouts();
@@ -32,40 +32,39 @@ export default function WorkoutDetailsPopup({
     setFormData(updatedSets);
   }
 
-  function calculateRM(weight, reps) {
-    const w = parseFloat(weight); //入力値をゆるく読める数値に変換
-    const r = parseFloat(reps);
-    if(!w || !r || r === 0 ) return null;
-    return parseFloat((w * (1 + r / 30)).toFixed(1));
+  function calculateRM(weightKg, reps) {
+    const w = Number(weightKg);
+    const r = Number(reps);
+    if(!w || !r ) return null;
+    return Number((w * (1 + r / 30)).toFixed(1));
   };
 
   function addSet() {
-    setFormData([...formData, { weight: "", reps: "", note: "", RM: "" }]);
+    setFormData([...formData, { weight: {kg: "", lbs: ""}, reps: "", note: "", RM: "" }]);
   }
 
   // ★ セット配列から maxWeight / maxRm を算出して state に反映
   function calcMaxFromSets(sets = []) {
-    let mw = 0;
-    let mr = 0;
+    let maxKg = 0;
+    let maxLbs = 0;
+    let maxRm = 0;
 
     for (const s of sets) {
-      const w = parseFloat(s?.weight);
-      const r = parseFloat(s?.reps);
-      // setにRMが保存済みなら最優先で使用、なければその場計算
-      const rm = Number.isFinite(parseFloat(s?.RM))
-        ? parseFloat(s.RM)
-        : calculateRM(w, r) ?? 0;
+      const kg = Number(s.weight.kg).toFixed(1);
+      const lbs = Number(s.weight.lbs).toFixed(1);
+      const rm = calculateRM(kg, s.reps) ?? 0;
 
-      if (w > mw) mw = w;
-      if (rm > mr) mr = rm;
+      if (kg > maxKg) maxKg = kg;
+      if (lbs > maxLbs) maxLbs = lbs;
+      if (rm > maxRm) maxRm = rm;
     }
-    return { maxWeight: mw, maxRm: mr };
+    return { maxWeight: { kg: maxKg, lbs: maxLbs }, maxRM: maxRm };
   }
 
    function validateSets(sets) {
     const newErrors = sets.map((set) => {
       const errs = {};
-      if (!set.weight) errs.weight = "Weight is required";
+      if (!set.weight.kg && !set.weight.lbs) errs.weight = "Weight is required";
       if(!set.reps) errs.reps = "Reps is required";
       return errs;
     });
@@ -89,18 +88,20 @@ export default function WorkoutDetailsPopup({
     }
 
     const setsWithRM = formData.map(set => ({
-      weight: parseFloat(set.weight),
-      reps: parseFloat(set.reps),
-      RM: calculateRM(set.weight, set.reps),
+      weight: { kg: Number(set.weight.kg).toFixed(1),
+                lbs: Number(set.weight.lbs).toFixed(1),
+      },
+      reps: Number(set.reps),
+      RM: calculateRM(set.weight.kg, set.reps),
       note: set.note ?? "",
     }));
 
-    const { maxWeight: mw, maxRm: mr } = calcMaxFromSets(setsWithRM);
+    const { maxWeight: { kg: kg, lbs: lbs }, maxRM: mr } = calcMaxFromSets(setsWithRM);
     
-    setMaxWeight(mw);
+    setMaxWeight(maxWeight);
     setMaxRm(mr);
-    onSubmit(setsWithRM, isEditing, mw, mr);
-    console.log("submitted:", setsWithRM, isEditing, mw, mr)
+    onSubmit(setsWithRM, isEditing, maxWeight, mr);
+    console.log("submitted:", setsWithRM, isEditing, maxWeight, mr)
     setDetailsPopup(false);
   }
 
@@ -111,9 +112,9 @@ export default function WorkoutDetailsPopup({
   }, [selectedWorkout]);
 
   useEffect(() => {
-  const { maxWeight: mw, maxRm: mr } = calcMaxFromSets(formData);
-  setMaxWeight(mw);
-  setMaxRm(mr);
+  const { maxWeight, maxRM } = calcMaxFromSets(formData);
+  setMaxWeight(maxWeight);
+  setMaxRm(maxRM);
   }, [formData]);
 
   useEffect (() => {
@@ -122,14 +123,19 @@ export default function WorkoutDetailsPopup({
     if (isEditing && editingWorkout) {
    setFormData(
     editingWorkout.sets.map((set) => ({
-      weight: set.weight || "",
-      reps: set.reps || "",
-      note: set.note || "",
-      RM: set.RM || "",
+      weight: {
+        kg: set.weight?.kg ?? "",
+        lbs: set.weight?.lbs ?? "",
+      },
+      reps: set.reps ?? "",
+      note: set.note ?? "",
+      RM: set.RM ?? "",
     }))
     );
   } else {
-    setFormData([ { weight: "", reps:"", note: ""}]);
+    setFormData([ { weight: { kg: "", lbs: ""}, 
+      reps:"", note: "", RM: "",
+      }]);
     }
   }, [detailsPopup, editingWorkout, isEditing]
 );
@@ -175,7 +181,7 @@ export default function WorkoutDetailsPopup({
                 <div className='prev-record--title'><p>Prev Record: {latestData.date.toLocaleDateString()}</p></div>
                   <div className='sets'>
                     {latestData.sets.map((set, i) => (
-                      <p className='set' key={i}>Set {i+1}:  {set.weight} kg × {set.reps} reps</p>
+                      <p className='set' key={i}>Set {i+1}:  {set.weight.kg} kg  ({set.weight.lbs} lbs) × {set.reps} reps</p>
                     ))}
                   </div>
                 </div>

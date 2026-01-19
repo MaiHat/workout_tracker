@@ -33,7 +33,10 @@ export default function WorkoutList({
          {workout.sets.map((set, i) => (
             <div key={i} className="workoutlist--set">
               <div className='space'>Set {i+1}: </div>
-              <div className='set-data space'><h3>{set.weight}</h3> kg </div>
+              <div className='set-data space'>
+                <h3>{set.weight.kg}</h3> kg 
+                <h4>( {set.weight.lbs}</h4> lbs )
+              </div>
               <p className='space'> x </p>
               <div className='set-data space'><h3>{set.reps}</h3> Reps  </div>
               <div className='space'>  RM: {set.RM} </div>

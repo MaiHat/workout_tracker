@@ -1,14 +1,14 @@
 import React from 'react'
 
-export default function WeightInput({ index, weightUnit, formData,setFormData }) {
+export default function WeightInput({ index, weightUnit, formData, setFormData }) {
   const handleWeightChange = (e) => {
-    const inputValue = Number(e.target.value);
+    const inputValue = Number(e.target.value).toFixed(1);
 
     const weightKg = 
-    weightUnit === "kg" ? inputValue : inputValue / 2.20462;
+    weightUnit === "kg" ? inputValue : inputValue / 2.20462.toFixed(1);
     
     const weightLbs =
-    weightUnit === "lbs" ? inputValue : inputValue * 2.20462;
+    weightUnit === "lbs" ? inputValue : inputValue * 2.20462.toFixed(1);
 
     const updatedFormData = [...formData];
     updatedFormData[index].weight = {
@@ -33,7 +33,7 @@ export default function WeightInput({ index, weightUnit, formData,setFormData })
       <span>{weightUnit}</span>
       <span>{weightUnit === "kg" 
       ? `(${formData[index].weight.lbs} lbs)` 
-      : `(${formData[index].weight.kg} kg)`}</span>
+      : `(${formData[index].weight.kg})`}</span>
     </div>
   )
 }
