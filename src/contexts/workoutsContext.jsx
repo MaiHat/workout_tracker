@@ -19,7 +19,7 @@ function WorkoutsContextProvider({ children }) {
   const [monthlyWorkoutDates, setMonthlyWorkoutDates] = useState([]);  
   const [monthlyArchivedDays, setMonthlyArchivedDays] = useState([]);
   const [maxRmOfTheDay, setMaxRmOfTheDay] = useState();
-  const [maxWeightOfTheDay, setMaxWeightOfTheDay] = useState();
+  const [maxWeightOfTheDay, setMaxWeightOfTheDay] = useState({kg: 0, lbs: 0});
   const [isLoading, setIsLoading] = useState(false);
   const { currentUser } = useAuth();
   const [monthlyStats, setMonthlyStats] = useState([]);
@@ -152,7 +152,8 @@ function WorkoutsContextProvider({ children }) {
         allStatsArray.push({
           date: dateYMD,
           maxRM: data.all?.maxRM || 0,
-          maxWeight: data.all?.maxWeight || 0,
+          maxWeightKg: data.all?.maxWeight?.kg || 0,
+          maxWeightLbs: data.all?.maxWeight?.lbs || 0,
         });
         //bodyPart別
         if (data.bodyParts) {
@@ -161,7 +162,8 @@ function WorkoutsContextProvider({ children }) {
             bodyPartStats[part].push({
               date: dateYMD,
               maxRM: stats.maxRM || 0,
-              maxWeight: stats.maxWeight || 0 
+              maxWeight: stats.maxWeight.kg || 0,
+              maxWeightLbs: stats.maxWeight.lbs || 0,
             });
           });
         }
@@ -172,7 +174,8 @@ function WorkoutsContextProvider({ children }) {
             workoutNameStats[name].push({
               date: dateYMD,
               maxRM: stats.maxRM || 0,
-              maxWeight: stats.maxWeight || 0
+              maxWeightKg: stats.maxWeight.kg || 0,
+              maxWeightLbs: stats.maxWeight.lbs || 0,
             });
           });
         }
@@ -221,7 +224,7 @@ function WorkoutsContextProvider({ children }) {
     //その日のworkoutが0 => statsを削除
     if (snapshot.empty) {
       setMaxRmOfTheDay(0);
-      setMaxWeightOfTheDay(0);
+      setMaxWeightOfTheDay({kg: 0, lbs: 0});
       try {
         await deleteDoc(doc(db, "users", currentUser.uid, "workoutStats", dateKey));
         console.log("Deleted empty workoutStats:", dateKey);
@@ -232,9 +235,9 @@ function WorkoutsContextProvider({ children }) {
     }
 
     let overallMaxRM = 0;
-    let overallMaxWeight = 0;
-    const bodyPartStats = {};   // 例{ arms: {maxRM:60, maxWeight:40}, legs: {...} }
-    const workoutNameStats = {}; // 例{ bench_press: {maxRM:70, maxWeight:45}, squat: {...} }
+    let overallMaxWeight = { kg: 0, lbs: 0 };
+    const bodyPartStats = {};   // 例{ arms: {maxRM:60, maxWeight: {kg: 40, lbs: 88}}, legs: {...} }
+    const workoutNameStats = {}; // 例{ bench_press: {maxRM:70, maxWeight: {kg: 50, lbs: 110}}, squat: {...} }
 
     snapshot.docs.forEach((doc) => {
       const workout = doc.data();
@@ -242,23 +245,28 @@ function WorkoutsContextProvider({ children }) {
 
       sets.forEach((set) => {
         const rm = set.RM;
-        const weight = set.weight;
+        const weightKg = set.weight.kg;
+        const weightLbs = set.weight.lbs;
+
         // 全体最大
-        if (rm >overallMaxRM) overallMaxRM = rm;
-        if (weight > overallMaxWeight) overallMaxWeight = weight;
+        if (rm > overallMaxRM) overallMaxRM = rm;
+        if (weightKg > overallMaxWeight.kg) overallMaxWeight.kg = weightKg;
+        if (weightLbs > overallMaxWeight.lbs) overallMaxWeight.lbs = weightLbs;
         //bodyPart別集計
         if (!bodyPartStats[bodyPart]) {
-          bodyPartStats[bodyPart] = { maxRM: rm, maxWeight: weight };
+          bodyPartStats[bodyPart] = { maxRM: rm, maxWeight: { kg: weightKg, lbs: weightLbs }};
         } else {
           bodyPartStats[bodyPart].maxRM = Math.max(bodyPartStats[bodyPart].maxRM, rm);
-          bodyPartStats[bodyPart].maxWeight = Math.max(bodyPartStats[bodyPart].maxWeight, weight);
+          bodyPartStats[bodyPart].maxWeight.kg = Math.max(bodyPartStats[bodyPart].maxWeight.kg, weightKg);
+          bodyPartStats[bodyPart].maxWeight.lbs = Math.max(bodyPartStats[bodyPart].maxWeight.lbs, weightLbs);
         }
         //workoutName別集計
         if (!workoutNameStats[workoutName]) {
-          workoutNameStats[workoutName] = { maxRM: rm, maxWeight: weight };
+          workoutNameStats[workoutName] = { maxRM: rm, maxWeight: { kg: weightKg, lbs: weightLbs }};
         } else {
           workoutNameStats[workoutName].maxRM = Math.max(workoutNameStats[workoutName].maxRM, rm);
-          workoutNameStats[workoutName].maxWeight = Math.max(workoutNameStats[workoutName].maxWeight, weight);
+          workoutNameStats[workoutName].maxWeight.kg = Math.max(workoutNameStats[workoutName].maxWeight.kg, weightKg);
+          workoutNameStats[workoutName].maxWeight.lbs = Math.max(workoutNameStats[workoutName].maxWeight.lbs, weightLbs);
         }
       });
     });
@@ -286,14 +294,14 @@ function WorkoutsContextProvider({ children }) {
 
     {/* 保存されるデータ例
      {  "date": "2025-11-12T08:00:00.000Z",
-        "all": { "maxRM": 85, "maxWeight": 55 },
+        "all": { "maxRM": 85, "maxWeight": { "kg": 55, "lbs": 121 } },
         "bodyParts": {
-          "arms": { "maxRM": 60, "maxWeight": 45 },
-          "legs": { "maxRM": 85, "maxWeight": 55 }
+          "arms": { "maxRM": 60, "maxWeight": { "kg": 45, "lbs": 99 } },
+          "legs": { "maxRM": 85, "maxWeight": { "kg": 55, "lbs": 121 } }
         },
         "workoutNames": {
-          "bench_press": { "maxRM": 70, "maxWeight": 50 },
-          "squat": { "maxRM": 85, "maxWeight": 55 }
+          "bench_press": { "maxRM": 70, "maxWeight": { "kg": 50, "lbs": 110 } },
+          "squat": { "maxRM": 85, "maxWeight": { "kg": 55, "lbs": 121 } }
         }
       } */}
   }
@@ -339,9 +347,6 @@ function WorkoutsContextProvider({ children }) {
 
       const workoutRef = collection(db, "users", currentUser.uid, "workouts");
     
-
-      
-     
       //同じ日に同じ種目のデータがあるか確認
       const q = query(
       workoutRef,
