@@ -94,10 +94,13 @@
     align-items: center;
     margin-bottom: 1rem;
   }
-  .selected-btn {
-    
-  }
+  
   button {
     margin: 0 0.5rem;
   }
+}
+
+//Weight Unit Swich
+.unit-switch {
+    button { margin-right: 1rem;}
 }

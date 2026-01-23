@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useAuth } from "../contexts/authContext";
 import { useWorkouts } from "../contexts/workoutsContext";
 import { Alert } from "react-bootstrap";
-import WeightUnitSwich from './WeightUnitSwich';
+import WeightUnitSwitch from './WeightUnitSwitch';
 import WeightInput from "./WeightInput";
 
 export default function WorkoutDetailsPopup({
@@ -194,7 +194,7 @@ export default function WorkoutDetailsPopup({
            <div className="popup--body">
              {/* 入力フォーム */}
               <form onSubmit={handleSubmit}>
-                <WeightUnitSwich 
+                <WeightUnitSwitch 
                 unit={weightUnit}
                 setUnit={setWeightUnit}
                 />

@@ -162,7 +162,7 @@ function WorkoutsContextProvider({ children }) {
             bodyPartStats[part].push({
               date: dateYMD,
               maxRM: stats.maxRM || 0,
-              maxWeight: stats.maxWeight.kg || 0,
+              maxWeightKg: stats.maxWeight.kg || 0,
               maxWeightLbs: stats.maxWeight.lbs || 0,
             });
           });

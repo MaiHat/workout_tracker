@@ -29,7 +29,7 @@ export default function WeightInput({ index, weightUnit, formData, setFormData }
       const updated = [...prev];
       const w = updated[index].weight;
 
-      if (w.inputValue === "") return updated;
+      if (typeof w.inputValue !== "number") return updated;
 
       updated[index].weight = {
         ...w,
@@ -51,8 +51,8 @@ export default function WeightInput({ index, weightUnit, formData, setFormData }
       />
       <span>{weightUnit}</span>
       <span>{weightUnit === "kg" 
-      ? `( ${weight.lbs !== "" ? weight.lbs.toFixed(1): "-"} lbs)` 
-      : `( ${weight.kg !== "" ? weight.kg.toFixed(1): "-"} kg)`}</span>
+      ? `( ${weight.lbs !== "" ? weight.lbs : "-"} lbs)` 
+      : `( ${weight.kg !== "" ? weight.kg: "-"} kg)`}</span>
     </div>
   )
 }

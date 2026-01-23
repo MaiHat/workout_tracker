@@ -104,7 +104,7 @@ export const LineGraph = () => {
               />
               <Line
                 type="monotone"
-                dataKey="maxWeight"
+                dataKey="maxWeightKg"
                 stroke="#82ca9d"
                 strokeWidth={2}
                 dot={{ r: 3 }}
